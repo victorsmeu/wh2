@@ -12,6 +12,13 @@ class CreateAllTables extends Migration
      */
     public function up()
     {
+        Schema::create('roles', function( Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 40);
+            $table->string('description', 255);
+            $table->timestamps();
+        });
+        
         Schema::create('specialties', function (Blueprint $table) {
             $table->increments('id');
             $table->string('term');
@@ -20,10 +27,10 @@ class CreateAllTables extends Migration
 
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('id_specialty')->unsigned();
-            $table->foreign('id_specialty')->references('id')->on('specialties')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('specialty_id')->unsigned();
+            $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
             $table->string('filename');
             $table->string('document_name');
             $table->string('target_ehr_category');
@@ -40,10 +47,10 @@ class CreateAllTables extends Migration
 
         Schema::create('medic_specialties', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('id_specialty')->unsigned();
-            $table->foreign('id_specialty')->references('id')->on('specialties')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('specialty_id')->unsigned();
+            $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -58,19 +65,19 @@ class CreateAllTables extends Migration
 
         Schema::create('patient_data', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_patient')->unsigned();
-            $table->foreign('id_patient')->references('id')->on('patients')->onDelete('cascade');
+            $table->integer('patient_id')->unsigned();
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->text('info');
             $table->timestamps();
         });
 
         Schema::create('studies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->string('id_study_dicom');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('study_id_dicom');
             $table->string('study_name');
-            $table->integer('id_specialty')->unsigned();
+            $table->integer('specialty_id')->unsigned();
             $table->string('upload_code');
             $table->string('upload_status');
             $table->string('patient');
@@ -86,27 +93,27 @@ class CreateAllTables extends Migration
 
         Schema::create('studies_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_study')->unsigned();
-            $table->foreign('id_study')->references('id')->on('studies')->onDelete('cascade');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('study_id')->unsigned();
+            $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::create('study_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_study')->unsigned();
-            $table->foreign('id_study')->references('id')->on('studies')->onDelete('cascade');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('study_id')->unsigned();
+            $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('comment');
             $table->timestamps();
         });
 
         Schema::create('study_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_study')->unsigned();
-            $table->foreign('id_study')->references('id')->on('studies')->onDelete('cascade');
+            $table->integer('study_id')->unsigned();
+            $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
             $table->string('study_code');
             $table->string('name');
             $table->string('mrn');
@@ -121,10 +128,10 @@ class CreateAllTables extends Migration
 
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_study')->unsigned();
-            $table->foreign('id_study')->references('id')->on('studies')->onDelete('cascade');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('study_id')->unsigned();
+            $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -145,15 +152,16 @@ class CreateAllTables extends Migration
         Schema::drop('documents');
         Schema::drop('history');
         Schema::drop('medic_specialties');
-        Schema::drop('patients');
         Schema::drop('patient_data');
+        Schema::drop('patients');
         Schema::drop('reports');
         Schema::drop('specialties');
-        Schema::drop('studies');
         Schema::drop('studies_users');
         Schema::drop('study_comments');
         Schema::drop('study_details');
+        Schema::drop('studies');
         Schema::drop('viewers');
+        Schema::drop('roles');
         Schema::drop('users');
     }
 }

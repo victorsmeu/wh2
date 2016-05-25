@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="{{ url('/css') }}/sb-admin-2.css">
     <link rel="stylesheet" href="{{ url('/css') }}/timeline.css">
     <link rel="stylesheet" href="{{ url('/css') }}/font-awesome.min.css">
-
+    <link rel="stylesheet" href="{{ url('/css') }}/backend.css">
+    
+    <script src="{{ url('/js') }}/jquery.min.js"></script>
 </head>
 <body id="app-layout">
     <div id="wrapper">
@@ -57,28 +59,35 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul id="side-menu" class="nav in">
                         <li>
-                            <a class="active" href="{{ url('/dashboard') }}">
+                            <a href="{{ url('/dashboard') }}">
                                 <i class="fa fa-dashboard fa-fw"></i>&nbsp; Dashboard
                             </a>
                         </li>
+                        @if(Auth::user()->role_id <= 2)
+                           <li>
+                                <a href="{{ url('/users') }}">
+                                    <i class="fa fa-user fa-fw"></i>&nbsp; Users
+                                </a>
+                            </li> 
+                        @endif
                         <li>
-                            <a class="active" href="{{ url('/patients') }}">
-                                <i class="fa fa-dashboard fa-fw"></i>&nbsp; Pacients
+                            <a href="{{ url('/patients') }}">
+                                <i class="fa fa-male fa-fw"></i>&nbsp; Patients
                             </a>
                         </li>
                         <li>
-                            <a class="active" href="{{ url('/medics/index') }}">
-                                <i class="fa fa-dashboard fa-fw"></i>&nbsp; Medics
+                            <a href="{{ url('/medics/index') }}">
+                                <i class="fa fa-user-md fa-fw"></i>&nbsp; Medics
                             </a>
                         </li>
                         <li>
-                            <a class="active" href="{{ url('/reports/index') }}">
-                                <i class="fa fa-dashboard fa-fw"></i>&nbsp; Reports
+                            <a href="{{ url('/reports/index') }}">
+                                <i class="fa fa-book fa-fw"></i>&nbsp; Reports
                             </a>
                         </li>
                         <li>
-                            <a class="active" href="{{ url('/conference/index') }}">
-                                <i class="fa fa-dashboard fa-fw"></i>&nbsp; Conference
+                            <a href="{{ url('/conference/index') }}">
+                                <i class="fa fa-comment fa-fw"></i>&nbsp; Conference
                             </a>
                         </li>
                     </ul>
@@ -100,9 +109,9 @@
     </div>
 
     <!-- JavaScripts -->
-    <script src="{{ url('/js') }}/jquery.min.js"></script>
     <script src="{{ url('/js') }}/bootstrap.min.js"></script>
     <script src="{{ url('/js') }}/metisMenu.min.js"></script>
     <script src="{{ url('/js') }}/sb-admin-2.js"></script>
+    <script src="{{ url('/js') }}/backend.js"></script>
 </body>
 </html>
