@@ -30,10 +30,33 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-         return view('user.index', [
-            'users' => $this->user->all()
+        $filters = array_filter(array_map(function($value) {
+                    return htmlentities(strip_tags($value));
+                }, $request->only(['search', 'role_id'])));
+        
+        if(empty($filters)) {
+            $users = $this->user->all();
+        } else {
+            $users = $this->user->where(function($query) use ($filters){
+                if(!empty($filters['search'])) {
+                    $query->where(function($subquery) use ($filters) {
+                        $subquery->where('first_name', 'LIKE', '%'.$filters['search'].'%')
+                                 ->orWhere('last_name', 'LIKE', '%'.$filters['search'].'%')
+                                 ->orWhere('email', 'LIKE', '%'.$filters['search'].'%');
+                    });
+                    
+                }
+                if(!empty($filters['role_id'])) {
+                    $query->where('role_id', $filters['role_id']);
+                }
+            })->get();
+        }
+        
+        return view('user.index', [
+            'users' => $users, 
+            'filters' => $filters
         ]);
     }
 

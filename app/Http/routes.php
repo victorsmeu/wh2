@@ -24,3 +24,5 @@ Route::get('/dashboard', 'DashboardController@index');
 Route::resource('/patients', 'PatientController');
 
 Route::resource('/users', 'UserController');
+
+Route::resource('/studies', 'StudiesController');

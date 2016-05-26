@@ -5,6 +5,32 @@
         <div class="col-lg-12">
             <h1 class="page-header">Users</h1>
         </div>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"> Filter <a class="btn btn-link btn-xs" href='{{ url('/users/') }}'>Reset filters</a></div>
+                <div class="panel-body">
+                    {!! Form::model($filters, array( 'route' => ['users.index'], 'role' => 'form', 'method' => 'GET' ) ) !!}
+                    <div class='col-lg-6 col-xs-12'>
+                        {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search by Name/Email']) !!}
+                    </div>
+                    <div class='col-lg-1 col-xs-3 form-control-static' style='text-align:right'>
+                        {!! Form::label('role_id', 'Role:') !!}
+                    </div>
+                    <div class='col-lg-4 col-xs-9'>
+                        {!! Form::select('role_id', ['' => '', 1 => 'Root', 2 => 'Admin', 3 => 'Medic', 4 => 'Patient'], null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class='col-lg-1 col-xs-12'> 
+                        <div class="form-group pull-right">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-btn fa-user"></i> &nbsp; Submit
+                            </button>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+        
         @if (count($users) > 0)
             <div class="col-lg-12">
                 <div id='no-more-tables'>

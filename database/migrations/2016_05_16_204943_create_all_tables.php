@@ -80,7 +80,7 @@ class CreateAllTables extends Migration
             $table->integer('specialty_id')->unsigned();
             $table->string('upload_code');
             $table->string('upload_status');
-            $table->string('patient');
+            $table->string('patient_id')->unsigned();
             $table->string('institution');
             $table->string('modality');
             $table->string('bodyPart');

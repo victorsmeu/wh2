@@ -71,13 +71,8 @@
                             </li> 
                         @endif
                         <li>
-                            <a href="{{ url('/patients') }}">
-                                <i class="fa fa-male fa-fw"></i>&nbsp; Patients
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/medics/index') }}">
-                                <i class="fa fa-user-md fa-fw"></i>&nbsp; Medics
+                            <a href="{{ url('/studies/index') }}">
+                                <i class="fa fa-file-image-o fa-fw"></i>&nbsp; Studies
                             </a>
                         </li>
                         <li>
@@ -86,10 +81,31 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ url('/patients') }}">
+                                <i class="fa fa-male fa-fw"></i>&nbsp; Patients
+                            </a>
+                        </li>
+                        @if(Auth::user()->role_id == 4)
+                        <li>
+                            <a href="{{ url('/medics/index') }}">
+                                <i class="fa fa-user-md fa-fw"></i>&nbsp; Medics
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->role_id <= 2)
+                           <li>
+                                <a href="{{ url('/admin/settings') }}">
+                                    <i class="fa fa-cogs fa-fw"></i>&nbsp; Settings
+                                </a>
+                            </li> 
+                        @endif
+                        @if(Auth::user()->role_id > 2)
+                        <li>
                             <a href="{{ url('/conference/index') }}">
                                 <i class="fa fa-comment fa-fw"></i>&nbsp; Conference
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>

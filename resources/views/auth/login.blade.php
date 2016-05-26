@@ -10,6 +10,14 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
+                        
+                        @if ($errors->has('active'))
+                        <div class='row col-md-12'>
+                            <div class='alert alert-danger col-md-9 col-md-offset-2'>
+                                {{ $errors->first('active') }}
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">E-Mail Address</label>

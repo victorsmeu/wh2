@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            {!! Form::open( array( 'route' => ['users.store'], 'role' => 'form' ) ) !!}
+            {!! Form::model($filters, array( 'route' => ['users.store'], 'role' => 'form' ) ) !!}
             @include('user/form')
             {!! Form::close() !!}
         </div>
