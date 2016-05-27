@@ -21,8 +21,36 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::resource('/patients', 'PatientController');
+Route::resource('/patients', 'PatientsController');
 
 Route::resource('/users', 'UserController');
 
 Route::resource('/studies', 'StudiesController');
+
+Route::resource('/reports', 'ReportsController');
+
+/*Admin settings */
+Route::get('/admin/settings', [
+     'middleware' => ['auth', 'roles'],
+     'uses' => 'SettingsController@index',
+     'roles' => ['root', 'admin']
+]);
+Route::get('/admin/settings/edit-viewer/{id}',  [
+     'middleware' => ['auth', 'roles'],
+     'uses' => 'SettingsController@editViewer',
+     'roles' => ['root', 'admin']
+]);
+Route::put('/admin/settings/update-viewer/{viewers}', [
+     'middleware' => ['auth', 'roles'],
+     'uses' => 'SettingsController@updateViewer',
+     'roles' => ['root', 'admin'],
+     'as' => 'admin.settings.update-viewer'
+]);
+/* -- */
+
+/*Patient Data */
+Route::get('/patients/ehr/{id}', [
+     'middleware' => ['auth'],
+     'uses' => 'PatientDataController@index'
+]); 
+/* -- */

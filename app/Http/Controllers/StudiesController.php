@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Study;
+use View;
 
 class StudiesController extends Controller
 {
@@ -16,6 +17,8 @@ class StudiesController extends Controller
         $this->middleware('auth');
 
         $this->study = $study;
+        
+        View::share(['menu'=> 'studies']);
     }
 
     /**
@@ -26,7 +29,7 @@ class StudiesController extends Controller
     public function index()
     {
         return view('studies.index', [
-            'studies' => $this->study->all()
+            'studies' => $this->study->all()->sortByDesc("created_at")
         ]);
     }
 

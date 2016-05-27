@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Auth;
+use Auth, View;
 
 class DashboardController extends Controller
 {
@@ -16,6 +16,8 @@ class DashboardController extends Controller
         $this->middleware('auth');
 
         $this->user = Auth::user();
+        
+        View::share(['menu'=> 'dashboard']);
     }
     
     public function index()

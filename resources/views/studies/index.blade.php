@@ -11,13 +11,18 @@
                 <div class='col-md-4'>
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            {{ $study->study_name }}
+                            {{ $study->study_name }} 
+                            @if (!empty($study->specialty->term)) 
+                               /  {{ $study->specialty->term }}
+                            @endif
                         </div>
                         <div class="panel-body">
                             <p><b>Added by:</b> {{ $study->user->first_name }} {{ $study->user->last_name }} [{{ $study->user->role->name }}]</p>
+                            <p><b>At:</b> {{ $study->user->created_at }}</p>
                             <p><b>Patient:</b> {{ $study->patient->first_name }} {{ $study->patient->last_name }}</p>
                             <p><b>Upload Status:</b> {{ $study->upload_status }}</p>
                             <hr />
+                            <p><b>Study data</b></p>
                             <p>Institution: {{ $study->institution }}, Body Part: {{ $study->bodyPart }}, Created: {{ $study->creationDate }}</p>
                             <hr />
                             <p>{{ $study->description }}</p>

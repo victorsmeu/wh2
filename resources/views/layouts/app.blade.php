@@ -49,35 +49,20 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            <li><a href='javascript:void()'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></li>
+                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </li>
                 @endif
             </ul>
+            
+            <!-- Main menu -->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul id="side-menu" class="nav in">
                         <li>
-                            <a href="{{ url('/dashboard') }}">
+                            <a href="{{ url('/dashboard') }}" class="@if($menu=='dashboard') active @endif">
                                 <i class="fa fa-dashboard fa-fw"></i>&nbsp; Dashboard
-                            </a>
-                        </li>
-                        @if(Auth::user()->role_id <= 2)
-                           <li>
-                                <a href="{{ url('/users') }}">
-                                    <i class="fa fa-user fa-fw"></i>&nbsp; Users
-                                </a>
-                            </li> 
-                        @endif
-                        <li>
-                            <a href="{{ url('/studies/index') }}">
-                                <i class="fa fa-file-image-o fa-fw"></i>&nbsp; Studies
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/reports/index') }}">
-                                <i class="fa fa-book fa-fw"></i>&nbsp; Reports
                             </a>
                         </li>
                         <li>
@@ -87,11 +72,28 @@
                         </li>
                         @if(Auth::user()->role_id == 4)
                         <li>
-                            <a href="{{ url('/medics/index') }}">
+                            <a href="{{ url('/medics') }}">
                                 <i class="fa fa-user-md fa-fw"></i>&nbsp; Medics
                             </a>
                         </li>
                         @endif
+                        @if(Auth::user()->role_id <= 2)
+                           <li>
+                                <a href="{{ url('/users') }}" class="@if($menu=='users') active @endif">
+                                    <i class="fa fa-user fa-fw"></i>&nbsp; Users
+                                </a>
+                            </li> 
+                        @endif
+                        <li>
+                            <a href="{{ url('/studies') }}" class="@if($menu=='studies') active @endif">
+                                <i class="fa fa-file-image-o fa-fw"></i>&nbsp; Studies
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/reports') }}">
+                                <i class="fa fa-book fa-fw"></i>&nbsp; Reports
+                            </a>
+                        </li>
                         @if(Auth::user()->role_id <= 2)
                            <li>
                                 <a href="{{ url('/admin/settings') }}">

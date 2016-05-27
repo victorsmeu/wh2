@@ -39,6 +39,8 @@ class CreateAllTables extends Migration
 
         Schema::create('history', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('action');
             $table->text('data');
             $table->timestamps();
@@ -56,6 +58,8 @@ class CreateAllTables extends Migration
 
         Schema::create('patients', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('gender');
@@ -67,6 +71,7 @@ class CreateAllTables extends Migration
             $table->increments('id');
             $table->integer('patient_id')->unsigned();
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->string('label');
             $table->text('info');
             $table->timestamps();
         });
@@ -132,6 +137,11 @@ class CreateAllTables extends Migration
             $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('content');
+            $table->boolean('active');
+            $table->dateTime('published_at')->nullable()->default('NULL');
+            $table->boolean('viewed');
+            $table->dateTime('viewed_at')->nullable()->default('NULL');
             $table->timestamps();
         });
 

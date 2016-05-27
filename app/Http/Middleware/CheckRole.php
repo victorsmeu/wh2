@@ -23,12 +23,7 @@ class CheckRole
         if ($request->user()->hasRole($roles) || !$roles) {
             return $next($request);
         }
-        return response([
-            'error' => [
-                'code' => 'INSUFFICIENT_ROLE',
-                'description' => 'You are not authorized to access this resource.'
-            ]
-                ], 401);
+        return response()->view('errors.401', []);
     }
 
     private function getRequiredRoleForRoute($route)

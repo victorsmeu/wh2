@@ -3,24 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB, Session;
+use Session;
 use App\Http\Requests;
-use App\Patient;
+use App\Report;
+use View;
 
-class PatientController extends Controller
+
+class ReportsController extends Controller
 {
-    protected $patient;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  Patient  $patient
-     */
-    public function __construct(Patient $patient)
+    protected $report;
+    
+    public function __construct(Report $report)
     {
         $this->middleware('auth');
 
-        $this->patient = $patient;
+        $this->report = $report;
+        
+        View::share(['menu'=> 'reports']);
     }
 
     /**
@@ -30,10 +29,8 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return view('patient.index', [
-            'patients' => $this->patient
-                               ->select(DB::raw('id, first_name, last_name, gender, YEAR(CURDATE())-year_of_birth AS age'))
-                               ->get()
+        return view('reports.index', [
+            'reports' => $this->report->all()->sortByDesc("created_at")
         ]);
     }
 
@@ -44,7 +41,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patient.create');
+        //
     }
 
     /**
@@ -55,16 +52,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'year_of_birth' => 'required|integer|min:1900|max:2100',
-            'gender' => 'required|in:M,F'
-        ]);
-
-        $this->patient->create($request->all());
-
-        return redirect('/patients');
+        //
     }
 
     /**
@@ -86,9 +74,7 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        return view('patient.edit', [
-            'patient' => $this->patient->find($id)
-        ]);
+        //
     }
 
     /**
@@ -100,9 +86,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->patient->find($id)->update($request->all());
-        Session::flash('flash_message', 'Information updated ok!');
-        return redirect()->route('patients.index');
+        //
     }
 
     /**

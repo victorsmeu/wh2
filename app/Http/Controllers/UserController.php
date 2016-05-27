@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Http\Requests;
 use App\User;
-
+use View;
 
 class UserController extends Controller
 {
@@ -23,6 +23,8 @@ class UserController extends Controller
         $this->middleware('auth');
 
         $this->user = $user;
+        
+        View::share(['menu'=> 'users']);
     }
     
     /**
@@ -37,7 +39,7 @@ class UserController extends Controller
                 }, $request->only(['search', 'role_id'])));
         
         if(empty($filters)) {
-            $users = $this->user->all();
+            $users = $this->user->all()->sortBy("role_id");
         } else {
             $users = $this->user->where(function($query) use ($filters){
                 if(!empty($filters['search'])) {
