@@ -121,6 +121,12 @@
                     {{ Session::get('flash_message') }}
                 </div>
             @endif
+            @if(Session::has('flash_error_message'))
+                <div class="alert alert-danger alert-dismissable">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">X</button>
+                    {{ Session::get('flash_message') }}
+                </div>
+            @endif
             @yield('content')
         </div>
 
@@ -131,5 +137,6 @@
     <script src="{{ url('/js') }}/metisMenu.min.js"></script>
     <script src="{{ url('/js') }}/sb-admin-2.js"></script>
     <script src="{{ url('/js') }}/backend.js"></script>
+    @yield('footer_js')
 </body>
 </html>

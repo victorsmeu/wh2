@@ -3,6 +3,9 @@ $(document).ready(function(){
         $(".alert").fadeIn("slow").slideDown("slow").delay(4000).slideUp('fast');
     }
     
+    this.window = $(window);
+    this.screen = $(screen);
+    
     width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
     
     if(width > 767) {

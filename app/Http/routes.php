@@ -19,6 +19,8 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/secure-download/{id}/{file_id}', 'DownloadController@secureDownload');
+
 Route::get('/dashboard', 'DashboardController@index');
 
 Route::resource('/patients', 'PatientsController');
@@ -51,6 +53,17 @@ Route::put('/admin/settings/update-viewer/{viewers}', [
 /*Patient Data */
 Route::get('/patients/ehr/{id}', [
      'middleware' => ['auth'],
-     'uses' => 'PatientDataController@index'
+     'uses' => 'PatientDataController@index',
+     'as' => 'patients.ehr'
+]); 
+Route::post('/patients/ehr/{id}', [
+     'middleware' => ['auth'],
+     'uses' => 'PatientDataController@update',
+     'as' => 'patient-data.update'
+]); 
+Route::post('/patients/ehr/upload/{id}', [
+     'middleware' => ['auth'],
+     'uses' => 'PatientDataController@upload',
+     'as' => 'patient-data.upload'
 ]); 
 /* -- */
