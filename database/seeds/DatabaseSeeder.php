@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Role;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +33,36 @@ class DatabaseSeeder extends Seeder
             'id'            => 4,
             'name'          => 'Patient',
             'description'   => ''
+        ]);
+
+        User::create([
+            'id' => 1,
+            'first_name' => 'Victor',
+            'last_name' => 'Smeu',
+            'email' => 'victor@victorsmeu.com',
+            'password' => bcrypt('victor123'),
+            'role_id' => 1,
+            'active' => 1
+        ]);
+
+        User::create([
+            'id' => 2,
+            'first_name' => 'Demo',
+            'last_name' => 'Medic',
+            'email' => 'demomedic@wh2.com',
+            'password' => bcrypt('demo123'),
+            'role_id' => 3,
+            'active' => 1
+        ]);
+
+        User::create([
+            'id' => 3,
+            'first_name' => 'Ion',
+            'last_name' => 'Popescu',
+            'email' => 'ion.popescu@demo.com',
+            'password' => bcrypt('popescuion123'),
+            'role_id' => 4,
+            'active' => 1
         ]);
     }
 }

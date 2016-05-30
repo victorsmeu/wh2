@@ -56,8 +56,8 @@ class UserController extends Controller
             })->get();
         }
         
-        return view('user.index', [
-            'users' => $users, 
+        return view('users.index', [
+            'users' => $users,
             'filters' => $filters
         ]);
     }
@@ -69,7 +69,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create', ['block_password' => false]);
+        return view('users.create', ['block_password' => false]);
     }
 
     /**
@@ -116,7 +116,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('user.edit', [
+        return view('users.edit', [
             'user' => $this->user->find($id),
             'block_password' => true
         ]);

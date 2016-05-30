@@ -16,10 +16,10 @@
                     <div class='col-lg-1 col-xs-3 form-control-static' style='text-align:right'>
                         {!! Form::label('role_id', 'Role:') !!}
                     </div>
-                    <div class='col-lg-4 col-xs-9'>
+                    <div class='col-lg-3 col-xs-9'>
                         {!! Form::select('role_id', ['' => '', 1 => 'Root', 2 => 'Admin', 3 => 'Medic', 4 => 'Patient'], null, ['class' => 'form-control']) !!}
                     </div>
-                    <div class='col-lg-1 col-xs-12'> 
+                    <div class='col-lg-2 col-xs-12'>
                         <div class="form-group pull-right">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-btn fa-user"></i> &nbsp; Submit
@@ -82,7 +82,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <a class="btn btn-primary"  href="{{ url('/users/create') }}">{{ trans('Add user') }}</a>
+            <a class="btn btn-primary"  href="{{ url('/users/create') }}">{{ trans('Add User') }}</a>
         </div>
     </div>
 @endsection

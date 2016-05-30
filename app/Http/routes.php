@@ -67,3 +67,8 @@ Route::post('/patients/ehr/upload/{id}', [
      'as' => 'patient-data.upload'
 ]); 
 /* -- */
+
+Route::get('/medics', [
+    'middleware' => ['auth'],
+    'uses' => 'MedicController@index'
+]);

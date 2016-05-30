@@ -19,7 +19,7 @@
     </script>
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{ trans('Edit patient') }}</h1>
+            <h1 class="page-header">{{ trans('Edit User') }}</h1>
         </div>
     </div>
     <div class="row">
@@ -28,7 +28,7 @@
                 'method' => 'PUT',
                 'route' => ['users.update', $user->id]
             ]) !!}
-            @include('user/form')
+            @include('users/form')
             {!! Form::close() !!}
         </div>
     </div>

@@ -85,7 +85,7 @@ class CreateAllTables extends Migration
             $table->integer('specialty_id')->unsigned();
             $table->string('upload_code');
             $table->string('upload_status');
-            $table->string('patient_id')->unsigned();
+            $table->integer('patient_id')->unsigned();
             $table->string('institution');
             $table->string('modality');
             $table->string('bodyPart');
@@ -139,9 +139,9 @@ class CreateAllTables extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('content');
             $table->boolean('active');
-            $table->dateTime('published_at')->nullable()->default('NULL');
+            $table->dateTime('published_at')->nullable()->default(NULL);
             $table->boolean('viewed');
-            $table->dateTime('viewed_at')->nullable()->default('NULL');
+            $table->dateTime('viewed_at')->nullable()->default(NULL);
             $table->timestamps();
         });
 

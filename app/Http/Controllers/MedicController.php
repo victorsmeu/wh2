@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\User;
 use App\Http\Requests;
+use View;
 
 class MedicController extends Controller
 {
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->middleware('auth');
+
+        $this->user = $user;
+
+        View::share(['menu'=> 'medics']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,9 @@ class MedicController extends Controller
      */
     public function index()
     {
-        //
+        return view('medics.index', [
+            'medics' => $this->user->where('role_id', 3)->get()
+        ]);
     }
 
     /**
