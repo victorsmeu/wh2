@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
 
 class User extends Authenticatable
 {
@@ -24,12 +25,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    
+    public function medicSpecialties()
+    {
+        return $this->hasMany('App\MedicSpecialty', 'user_id', 'id');
+    }
+    
 
     public function role()
     {
         return $this->hasOne('App\Role', 'id', 'role_id');
     }
 
+    
     public function hasRole($roles)
     {
         $this->have_role = $this->getUserRole();
@@ -49,14 +58,32 @@ class User extends Authenticatable
         return false;
     }
 
+    
     private function getUserRole()
     {
         return $this->role()->getResults();
     }
 
+    
     private function checkIfUserHasRole($need_role)
     {
         return (strtolower($need_role) == strtolower($this->have_role->name)) ? true : false;
     }
-
+    
+    
+    public function medics()
+    {
+        $medics = [];
+        $users = DB::table('users')->select('users.id', 'first_name', 'last_name', 'email', 'specialty_id', 'term')
+                                   ->where('active','1')
+                                   ->where('role_id','3')
+                                   ->join('medic_specialties', 'medic_specialties.user_id', '=', 'users.id')
+                                   ->join('specialties', 'specialties.id', '=', 'medic_specialties.specialty_id')
+                                   ->get();
+        foreach($users as $user) {
+            $medics[$user->specialty_id][] = $user;
+        }
+        
+        return $medics;
+    }
 }

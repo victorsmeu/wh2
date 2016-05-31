@@ -90,3 +90,7 @@
     #page-wrapper {margin-left:0; transition: margin-left 0.2s ease-out;}
     #page-wrapper.shrinked {margin-left: 250px;}
 }
+
+.panel-green a,  .panel-green a:hover {
+    color: inherit;
+}

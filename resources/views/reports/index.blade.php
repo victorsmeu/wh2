@@ -42,7 +42,7 @@
                                     @if($report->viewed == 1) <small>{{ $report->viewed_at }}</small> @endif
                                 </td>
                                 <td style="text-align:right">
-                                    <a class='btn btn-primary' href=''>View Report</a>
+                                    <a class='btn btn-primary' href='{{ url('/reports/' . $report->id) }}'>View Report</a>
                                 </td>
                             </tr>
                         @endforeach

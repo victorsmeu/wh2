@@ -10,4 +10,9 @@ class Specialty extends Model
     {
         return $this->hasMany('App\Study', 'specialty_id', 'id');
     }
+    
+    public function medicSpecialties()
+    {
+        return $this->belogsTo('App\MedicSpecialty');
+    }
 }

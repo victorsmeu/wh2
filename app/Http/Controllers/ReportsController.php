@@ -63,7 +63,9 @@ class ReportsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('reports.view', [
+            'report' => $this->report->find($id)
+        ]);
     }
 
     /**

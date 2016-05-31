@@ -63,6 +63,14 @@
 </div>
 
 <div class="form-group">
+    <div class="checkbox">
+        <label>
+            {!! Form::checkbox('active', 1, null) !!} Active
+        </label>
+    </div>
+</div>
+
+<div class="form-group">
     <button type="submit" class="btn btn-primary btn-block">
         <i class="fa fa-btn fa-user"></i> &nbsp; Submit
     </button>

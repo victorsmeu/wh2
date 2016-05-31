@@ -16,13 +16,11 @@ class CreateAllTables extends Migration
             $table->increments('id');
             $table->string('name', 40);
             $table->string('description', 255);
-            $table->timestamps();
         });
         
         Schema::create('specialties', function (Blueprint $table) {
             $table->increments('id');
             $table->string('term');
-            $table->timestamps();
         });
 
         Schema::create('documents', function (Blueprint $table) {
@@ -53,7 +51,6 @@ class CreateAllTables extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('specialty_id')->unsigned();
             $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
-            $table->timestamps();
         });
 
         Schema::create('patients', function (Blueprint $table) {
@@ -102,6 +99,9 @@ class CreateAllTables extends Migration
             $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->dateTime('invited_at')->nullable()->default(NULL);
+            $table->boolean('accepted');
+            $table->dateTime('viewed_at')->nullable()->default(NULL);
             $table->timestamps();
         });
 

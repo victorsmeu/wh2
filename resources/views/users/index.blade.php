@@ -42,6 +42,7 @@
                                 <th>User Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Active</th>
                                 <th>Created</th>
                                 <th>Updated</th>
                                 <th>&nbsp;</th>
@@ -60,6 +61,9 @@
                                 </td>
                                 <td data-title='Role'>
                                     {{ $user->role->name }}
+                                </td>
+                                <td data-title='Active'>
+                                    {!! $user->active ?  '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>' !!}
                                 </td>
                                 <td data-title='Created'>
                                     {{ $user->created_at }}

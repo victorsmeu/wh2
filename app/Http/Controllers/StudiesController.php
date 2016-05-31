@@ -6,17 +6,19 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Study;
-use View;
+use App\User;
+use View, Session;
 
 class StudiesController extends Controller
 {
-    protected $study;
+    protected $study, $users;
     
-    public function __construct(Study $study)
+    public function __construct(Study $study, User $user)
     {
         $this->middleware('auth');
 
-        $this->study = $study;
+        $this->studies = $study;
+        $this->users = $user;
         
         View::share(['menu'=> 'studies']);
     }
@@ -28,74 +30,38 @@ class StudiesController extends Controller
      */
     public function index()
     {
+        $studies = $this->studies
+                        ->select('studies.*', 'studies_users.accepted')
+                        ->leftJoin('studies_users', 'studies_users.study_id', '=', 'studies.id')
+                        ->where(function($query) {
+                            if(\Auth::user()->role_id > 2)
+                                $query->where('studies.user_id', \Auth::user()->id)
+                                      ->orWhere('studies_users.user_id', \Auth::user()->id);
+                        })
+                        ->orderBy("created_at", "desc")
+                        ->get();        
         return view('studies.index', [
-            'studies' => $this->study->all()->sortByDesc("created_at")
+            'studies' => $studies,
+            'medics' => $this->users->medics()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        return view('studies.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    
+    public function invite(Request $request, \App\StudiesUser $studiesUser)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $input = $request->all();
+        $input['invited_at'] = date('Y-m-d H:i:s');
+        
+        $user = $studiesUser->firstOrNew(['study_id' => $input['study_id'], 'user_id' => $input['user_id']]);
+        $user->fill($input)->save();
+        
+        Session::flash('flash_message', 'Invitation sent ok!');
+        return redirect()->back();
     }
 }

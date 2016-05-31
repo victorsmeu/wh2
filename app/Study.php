@@ -20,4 +20,9 @@ class Study extends Model
     {
         return $this->hasOne('App\Patient', 'id', 'patient_id');
     }
+    
+    public function studies_users()
+    {
+        return $this->hasMany('App\StudiesUser');
+    }
 }

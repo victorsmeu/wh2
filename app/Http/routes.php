@@ -28,6 +28,7 @@ Route::resource('/patients', 'PatientsController');
 Route::resource('/users', 'UserController');
 
 Route::resource('/studies', 'StudiesController');
+Route::post('/studies/invite', ['uses' => 'StudiesController@invite', 'as' => 'studies.invite']);
 
 Route::resource('/reports', 'ReportsController');
 

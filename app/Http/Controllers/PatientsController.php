@@ -33,14 +33,19 @@ class PatientsController extends Controller
      */
     public function index()
     {
+        $patients = $this->patient
+                         ->select(DB::raw('patients.id, first_name, last_name, gender, YEAR(CURDATE())-year_of_birth AS age'))
+                         ->leftJoin('studies', 'studies.patient_id', '=', 'patients.id')
+                         ->leftJoin('studies_users', 'studies_users.study_id', '=', 'studies.id')
+                         ->where(function($query) {
+                            if(\Auth::user()->role_id > 2)
+                               $query->where('studies.user_id', \Auth::user()->id)
+                                     ->orWhere('studies_users.user_id', \Auth::user()->id);
+                         })
+                         ->get();
+
         return view('patient.index', [
-            'patients' => $this->patient
-                               ->select(DB::raw('id, first_name, last_name, gender, YEAR(CURDATE())-year_of_birth AS age'))
-                               ->where(function($query) {
-                                   if(\Auth::user()->role_id > 2)
-                                    $query->where('user_id', \Auth::user()->id);
-                                    })
-                               ->get()
+            'patients' => $patients
         ]);
     }
 
