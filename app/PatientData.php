@@ -30,6 +30,7 @@ class PatientData extends Model
     public function getDataForPatient($patient_id)
     {
         $data = $this->where('patient_id', $patient_id)->get();
+        if(count($data) == 0) return false;
         foreach($data as $key => $value) {
             //Only files can have multiple values for now
             if(strpos($value['label'], '_file') !== false) {

@@ -6,8 +6,8 @@
             <h1 class="page-header">Medics</h1>
         </div>
         @if (count($medics) > 0)
-            <div class="col-lg-3 col-md-6">
-                @foreach ($medics as $medic)
+            @foreach ($medics as $medic)
+                <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -28,8 +28,8 @@
                             </div>
                         </a>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         @endif
     </div>
 @endsection

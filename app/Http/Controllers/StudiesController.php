@@ -76,4 +76,10 @@ class StudiesController extends Controller
         Session::flash('flash_message', 'Study viewed ok!');
         return redirect()->back();
     }
+
+
+    public function accept($study_id)
+    {
+        
+    }
 }
