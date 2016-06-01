@@ -38,6 +38,14 @@ class PatientDataController extends Controller
         ]);
     }
     
+    public function view($id)
+    {
+        return view('patient.ehr.view', [
+            'patientData' => $this->patientData->getDataForPatient($id),
+            'patient_id' => $id
+        ]);
+    }
+    
     public function update(Request $request, $id)
     {
         $input = [

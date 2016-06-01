@@ -1,12 +1,6 @@
 {!! Form::hidden('label', $label) !!}
 
-@if($files)
-<ul>
-@foreach ($files as $file)
-<li><a href='{{ url('/secure-download/' . $file['patient_id'] . '/' . $file['id']) }}' target='_blank'>{{ $file['info']->originalName }}</a></li>
-@endforeach
-</ul>
-@endif
+@include ('patient/ehr/list_files', ['files' => $files])
 
 <div class="form-group">
     <div class='col-md-2{{ $errors->has('info') ? ' has-error' : '' }}'>

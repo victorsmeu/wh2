@@ -18,14 +18,14 @@
                                    /  {{ $study->specialty->term }}
                                 @endif
                                 @if(!$study->accepted && $study->user_id != Auth::user()->id)
-                                <a href='' class='btn btn-primary  btn-xs pull-right'>Accept</a>
+                                <a href='{{ url('/studies/accept/' . $study->id) }}' class='btn btn-primary  btn-xs pull-right'>Accept</a>
                                 @endif
                             </div>
                             <div class="panel-body">
                                 <p><b>Added by:</b> {{ $study->user->first_name }} {{ $study->user->last_name }} [{{ $study->user->role->name }}]</p>
                                 <p><b>At:</b> {{ $study->user->created_at }}</p>
                                 <p><b>Patient:</b> {{ $study->patient->first_name }} {{ $study->patient->last_name }}</p>
-                                <p><a href='{{ url('/patients/ehr/' . $study->patient_id) }}' class='btn btn-default'>View patient EHR</a></p>
+                                <p><a href='{{ url('/patients/ehr/' . $study->patient_id . '/view') }}' class='btn btn-default'>View patient EHR</a></p>
                                 <hr />
                                 <p><b>Study data</b></p>
                                 <p>Institution: {{ $study->institution }}, Body Part: {{ $study->bodyPart }}, Created: {{ $study->creationDate }}</p>
@@ -37,10 +37,10 @@
                                 <a class='btn btn-primary' data-placement="top" data-toggle="modal" data-target="#inviteMedic">Invite medic</a>
                                 &nbsp; 
                                 @endif
-                                <a class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Weasys'>W</a>
-                                <a class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Osirix'>O</a>
-                                <a class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Oviam'>O</a>
-                                <a class='btn btn-default btn-circle pull-right' data-placement="top" data-toggle="tooltip" title='Download'><i class='fa fa-download'></i></a>
+                                <a href='{{ url('/studies/view/' . $study->id . '/1') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Weasys'>W</a>
+                                <a href='{{ url('/studies/view/' . $study->id . '/2') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Osirix'>O</a>
+                                <a href='{{ url('/studies/view/' . $study->id . '/3') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Oviam'>O</a>
+                                <a href='{{ url('/studies/view/' . $study->id . '/4') }}' class='btn btn-default btn-circle pull-right' data-placement="top" data-toggle="tooltip" title='Download'><i class='fa fa-download'></i></a>
                             </div>
                         </div>
                     </div>

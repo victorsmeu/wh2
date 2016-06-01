@@ -29,6 +29,7 @@ Route::resource('/users', 'UserController');
 
 Route::resource('/studies', 'StudiesController');
 Route::post('/studies/invite', ['uses' => 'StudiesController@invite', 'as' => 'studies.invite']);
+Route::get('/studies/view/{study_id}/{viewer_id}', ['uses' => 'StudiesController@view', 'as' => 'studies.view']);
 
 Route::resource('/reports', 'ReportsController');
 
@@ -56,6 +57,11 @@ Route::get('/patients/ehr/{id}', [
      'middleware' => ['auth'],
      'uses' => 'PatientDataController@index',
      'as' => 'patients.ehr'
+]); 
+Route::get('/patients/ehr/{id}/view', [
+     'middleware' => ['auth'],
+     'uses' => 'PatientDataController@view',
+     'as' => 'patients.ehr.view'
 ]); 
 Route::post('/patients/ehr/{id}', [
      'middleware' => ['auth'],

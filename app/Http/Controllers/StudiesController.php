@@ -64,4 +64,16 @@ class StudiesController extends Controller
         Session::flash('flash_message', 'Invitation sent ok!');
         return redirect()->back();
     }
+    
+    
+    public function view($study_id, $viewer_id)
+    {
+        if(\Auth::user()->role_id == 3) {
+            \App\StudiesUser::where('study_id', $study_id)
+                            ->where('user_id', \Auth::user()->id)
+                            ->update(['viewed_at' => date("Y-m-d H:i:s")]);
+        }
+        Session::flash('flash_message', 'Study viewed ok!');
+        return redirect()->back();
+    }
 }
