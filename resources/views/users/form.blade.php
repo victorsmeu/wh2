@@ -51,6 +51,7 @@
     @endif
 </div>
 
+@if($user->id != Auth::user()->id)
 <div class="form-group{{ $errors->has('role_id') ? ' has-error' : '' }}">
     {!! Form::label('role_id', 'Role:', ['class' => 'control-label']) !!}
     {!! Form::select('role_id', [2 => 'Admin', 3 => 'Medic', 4 => 'Patient'], null, ['class' => 'form-control']) !!}
@@ -69,6 +70,7 @@
         </label>
     </div>
 </div>
+@endif
 
 <div class="form-group">
     <button type="submit" class="btn btn-primary btn-block">

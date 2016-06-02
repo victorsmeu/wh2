@@ -21,8 +21,13 @@ class Study extends Model
         return $this->hasOne('App\Patient', 'id', 'patient_id');
     }
     
-    public function studies_users()
+    public function study_users()
     {
         return $this->hasMany('App\StudiesUser');
+    }
+    
+    public function reports()
+    {
+        return $this->hasMany('App\Report');
     }
 }

@@ -50,6 +50,12 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li><a href='javascript:void()'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></li>
+                            <li><a href="{{ url('/users/' .  Auth::user()->id . '/edit') }}" style='padding-left:16px;'>
+                                    <i class="fa fa-user fa-fw"></i> User Account</a>
+                            </li>
+                            @if(Auth::user()->role_id == 3)
+                            <li><a href="{{ url('/medics/edit-cv') }}"><i class="fa fa-btn fa-book"></i> Edit CV</a></li>
+                            @endif
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </li>

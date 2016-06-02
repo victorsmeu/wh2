@@ -30,8 +30,11 @@ Route::resource('/users', 'UserController');
 Route::resource('/studies', 'StudiesController');
 Route::post('/studies/invite', ['uses' => 'StudiesController@invite', 'as' => 'studies.invite']);
 Route::get('/studies/view/{study_id}/{viewer_id}', ['uses' => 'StudiesController@view', 'as' => 'studies.view']);
+Route::get('/studies/accept/{study_id}', ['uses' => 'StudiesController@accept', 'as' => 'studies.accept']);
+Route::get('/studies/decline/{study_id}', ['uses' => 'StudiesController@decline', 'as' => 'studies.decline']);
 
 Route::resource('/reports', 'ReportsController');
+Route::get('/reports/create/{id_study}', ['uses' => 'ReportsController@create', 'as' => 'reports.create']);
 
 /*Admin settings */
 Route::get('/admin/settings', [
@@ -79,3 +82,12 @@ Route::get('/medics', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@index'
 ]);
+Route::get('/medics/edit-cv', [
+    'middleware' => ['auth'],
+    'uses' => 'MedicController@editCV'
+]);
+Route::get('/medics/view-cv', [
+    'middleware' => ['auth'],
+    'uses' => 'MedicController@viewCV'
+]);
+

@@ -30,18 +30,30 @@ class StudiesController extends Controller
      */
     public function index()
     {
-        $studies = $this->studies
-                        ->select('studies.*', 'studies_users.accepted')
+        $myStudies = $this->studies
+                        ->where(function($query) {
+                            if(\Auth::user()->role_id > 2)
+                                $query->where('studies.user_id', \Auth::user()->id);
+                        })
+                        ->orderBy("created_at", "desc")
+                        ->get();   
+        
+        if(\Auth::user()->role_id < 4) {
+        $usersStudies = $this->studies
+                        ->select('studies.*', 'studies_users.accepted', 'studies_users.invited_at', 'studies_users.viewed_at')
                         ->leftJoin('studies_users', 'studies_users.study_id', '=', 'studies.id')
                         ->where(function($query) {
                             if(\Auth::user()->role_id > 2)
-                                $query->where('studies.user_id', \Auth::user()->id)
-                                      ->orWhere('studies_users.user_id', \Auth::user()->id);
+                                $query->where('studies_users.user_id', \Auth::user()->id);
                         })
                         ->orderBy("created_at", "desc")
-                        ->get();        
+                        ->get(); 
+        } else {
+            $usersStudies = [];
+        }
         return view('studies.index', [
-            'studies' => $studies,
+            'myStudies' => $myStudies,
+            'usersStudies' => $usersStudies,
             'medics' => $this->users->medics()
         ]);
     }
@@ -80,6 +92,19 @@ class StudiesController extends Controller
 
     public function accept($study_id)
     {
-        
+        \App\StudiesUser::where('study_id', $study_id)
+                ->where('user_id', \Auth::user()->id)
+                ->update(['accepted' => 1]);
+        Session::flash('flash_message', 'Study accepted ok!');
+        return redirect()->back();
+    }
+    
+    public function decline($study_id)
+    {
+        \App\StudiesUser::where('study_id', $study_id)
+                ->where('user_id', \Auth::user()->id)
+                ->update(['accepted' => 0]);
+        Session::flash('flash_message', 'Study declined!');
+        return redirect()->back();
     }
 }

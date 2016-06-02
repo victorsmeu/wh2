@@ -50,9 +50,14 @@
                             <h5>Written By: {{ $report->user['first_name'] }} {{ $report->user['last_name'] }}</h5>
                             <p>Date added: {{ $report->published_at }}
                         </div>
-                        {{ $report->content }}
+                        {!! $report->content !!}
                     </div>
                     <!-- /.panel-body -->
+                    @if($report->user_id == Auth::user()->id) 
+                    <div class="panel-footer">
+                        <a href='{{ url('/reports/' . $report->id . '/edit') }}' class='btn btn-primary'>Edit Report</a>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

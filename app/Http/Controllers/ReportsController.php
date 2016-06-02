@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Http\Requests;
 use App\Report;
-use View;
+use Auth, View;
 
 
 class ReportsController extends Controller
@@ -39,9 +39,11 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($study_id)
     {
-        //
+        return view('reports.create', [
+            'study_id' => $study_id
+        ]);
     }
 
     /**
@@ -52,7 +54,21 @@ class ReportsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $active = ($request->submit == 'publish') ? 1 : 0;
+        $published_at = ($request->submit == 'publish') ? date('Y-m-d H:i:s') : 'null';
+                
+        $input = [
+            'study_id' => $request->study_id, 
+            'content' => $request->content, 
+            'active' => $active, 
+            'published_at' => $published_at
+        ];
+        
+        $input['user_id'] = \Auth::user()->id;
+        
+        $this->report->create($input);
+
+        return redirect('/reports');
     }
 
     /**
@@ -63,6 +79,11 @@ class ReportsController extends Controller
      */
     public function show($id)
     {
+        $report = $this->report->find($id);
+        if(Auth::user()->role_id > 2 && Auth::user()->id != $report->user_id ) {
+            $this->report->find($id)->update(['viewed' => 1, 'viewed_at' => date('Y-m-d H:i:s')]);
+        }
+        
         return view('reports.view', [
             'report' => $this->report->find($id)
         ]);
@@ -76,7 +97,9 @@ class ReportsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('reports.edit', [
+            'report' => $this->report->find($id)
+        ]);
     }
 
     /**
@@ -88,7 +111,11 @@ class ReportsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        $this->report->find($id)->update($input);
+        Session::flash('flash_message', 'Information updated ok!');
+        return redirect()->route('reports.index');
     }
 
     /**

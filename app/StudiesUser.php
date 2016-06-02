@@ -14,4 +14,9 @@ class StudiesUser extends Model
     {
         return $this->belongsTo('App\Study');
     }
+    
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
 }
