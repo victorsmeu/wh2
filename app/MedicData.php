@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class MedicData extends Model
 {
-    protected $table = 'patient_data';
+    protected $table = 'medic_data';
     
-    protected $fillable = ['patient_id', 'label', 'info'];
+    protected $fillable = ['user_id', 'label', 'info'];
     
-    protected $patientData = [
-        'cv' => '',
+    protected $medicData = [
+        /*'cv' => '',*/
         'cv_file' => '',
         'image' => '',
         'signature' => ''

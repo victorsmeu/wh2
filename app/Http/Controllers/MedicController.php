@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\MedicData;
 use App\Http\Requests;
 use Auth, View;
 
@@ -48,9 +49,10 @@ class MedicController extends Controller
     public function editCV()
     {
         $id = Auth::user()->id;
-        
+
         return view('medics.edit-cv', [
-            $medicData = $this->medicData->getDataForMedic($id)
+            'medicData' => $this->medicData->getDataForMedic($id),
+            'user_id' => $id
         ]);
     }
 
@@ -63,7 +65,34 @@ class MedicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'cv_file' => 'mimes:pdf',
+            'image' => 'mimes:jpeg,png',
+            'signature' => 'mimes:jpeg,png'
+        ]);
+
+        $files = ['cv_file', 'image', 'signature'];
+        foreach($files as $file) {
+            $filename = md5(microtime() . $id) . '.' . $request->file($file)->getClientOriginalExtension();
+            $originalName = $request->file($file)->getClientOriginalName();
+
+            try {
+                $request->file($file)->move(storage_path('uploads'), $filename);
+            } catch (Exception $ex) {
+                Session::flash('flash_error_message', $ex);
+            }
+
+            $fileInfo = ['filename' => $filename, 'originalName' => $originalName];
+
+            $input = [
+                'user_id' => $id,
+                'label' => $file,
+                'info' => json_encode($fileInfo)
+            ];
+            $this->medicData->create($input);
+        }
+
+        return redirect()->back();
     }
 
 }

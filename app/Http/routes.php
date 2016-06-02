@@ -86,6 +86,11 @@ Route::get('/medics/edit-cv', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@editCV'
 ]);
+Route::put('/medics/update/{user_id}', [
+    'middleware' => ['auth'],
+    'uses' => 'MedicController@update',
+    'as' => 'medics.update'
+]);
 Route::get('/medics/view-cv', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@viewCV'
