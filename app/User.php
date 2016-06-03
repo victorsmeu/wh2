@@ -32,13 +32,16 @@ class User extends Authenticatable
         return $this->hasMany('App\MedicSpecialty', 'user_id', 'id');
     }
     
-
     public function role()
     {
         return $this->hasOne('App\Role', 'id', 'role_id');
     }
-
     
+    public function info()
+    {
+        return $this->hasMany('App\MedicData', 'user_id', 'id');
+    }
+
     public function hasRole($roles)
     {
         $this->have_role = $this->getUserRole();
@@ -58,18 +61,15 @@ class User extends Authenticatable
         return false;
     }
 
-    
     private function getUserRole()
     {
         return $this->role()->getResults();
     }
 
-    
     private function checkIfUserHasRole($need_role)
     {
         return (strtolower($need_role) == strtolower($this->have_role->name)) ? true : false;
     }
-    
     
     public function medics()
     {

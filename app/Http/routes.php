@@ -20,6 +20,8 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 Route::get('/secure-download/{id}/{file_id}', 'DownloadController@secureDownload');
+Route::get('/get-medic-file/{id}/{file_id}', 'DownloadController@medicInfoDownload');
+Route::get('/get-medic-image/{id}/{file_id}', 'DownloadController@medicImageView');
 
 Route::get('/dashboard', 'DashboardController@index');
 
@@ -78,6 +80,7 @@ Route::post('/patients/ehr/upload/{id}', [
 ]); 
 /* -- */
 
+/*Medic Data */
 Route::get('/medics', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@index'
@@ -86,13 +89,14 @@ Route::get('/medics/edit-cv', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@editCV'
 ]);
-Route::put('/medics/update/{user_id}', [
+Route::post('/medics/update/{user_id}', [
     'middleware' => ['auth'],
     'uses' => 'MedicController@update',
     'as' => 'medics.update'
 ]);
-Route::get('/medics/view-cv', [
+Route::get('/medic/view-cv/{user_id}', [
     'middleware' => ['auth'],
-    'uses' => 'MedicController@viewCV'
+    'uses' => 'MedicController@viewCV',
+    'as' => 'medic.view-cv'
 ]);
-
+/* -- */

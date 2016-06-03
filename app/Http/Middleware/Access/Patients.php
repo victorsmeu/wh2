@@ -10,7 +10,7 @@ class Patients extends Access
     public function handle($request, Closure $next, $guard = null)
     {
         $id = $this->getRequestId($request);
-        
+
         if($id && \Auth::user()->role_id > 2 && \App\Patient::where('id', $id)->where('user_id', \Auth::user()->id)->count() == 0) {
             return redirect()->route('patients.index');
         }

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MedicSpecialty extends Model
 {
-    public function specialties()
+    public function specialty()
     {
-        return $this->hasOne('App\Specialty', 'specialty_id', 'id');
+        return $this->hasOne('App\Specialty', 'id', 'specialty_id');
     }
     
     public function user()

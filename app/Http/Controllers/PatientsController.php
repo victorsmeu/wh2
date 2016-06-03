@@ -39,7 +39,7 @@ class PatientsController extends Controller
                          ->leftJoin('studies_users', 'studies_users.study_id', '=', 'studies.id')
                          ->where(function($query) {
                             if(\Auth::user()->role_id > 2)
-                               $query->where('studies.user_id', \Auth::user()->id)
+                               $query->where('patients.user_id', \Auth::user()->id)
                                      ->orWhere('studies_users.user_id', \Auth::user()->id);
                          })
                          ->get();
@@ -93,9 +93,11 @@ class PatientsController extends Controller
      */
     public function edit($id)
     {
-        if(\Auth::user()->role_id > 2 && $this->patient->where('id', $id)->where('user_id', \Auth::user()->id)->count() == 0) {
-            return redirect()->route('patients.index');
-        }
+//        if(\Auth::user()->role_id > 2 && $this->patient->where('id', $id)->where('user_id', \Auth::user()->id)->count() == 0) {
+//            return redirect()->route('patients.index');
+//        }
+        
+        
         return view('patient.edit', [
             'patient' => $this->patient->find($id)
         ]);

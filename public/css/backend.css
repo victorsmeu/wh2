@@ -94,3 +94,16 @@
 .panel-green a,  .panel-green a:hover {
     color: inherit;
 }
+
+.cv_edit_container {height:120px; width:100%;}
+.cv_edit_container i {font-size:68px; color:#eee;}
+.cv_edit_container a i {color: #dff0d8;}
+.cv_edit_container img {max-width:100%; max-height:100px; margin:0 auto; display:block;}
+
+.avatar {border: 1px solid #ddd; border-radius:100%; width: 100%;}
+
+.list_files {padding-left: 10px;}
+.list_files li {width:80px; padding:0px; border-radius:3px; border:1px solid #ddd; text-align:center; display:inline-block; margin:5px; transition: all 0.1s ease;}
+.list_files li:hover {background:#f0f0f0; border-color:#337ab7;}
+.list_files li a {display:block; padding:10px;}
+.list_files li i {font-size:32px; line-height:40px;}
