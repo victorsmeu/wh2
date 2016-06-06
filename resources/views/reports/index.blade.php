@@ -25,7 +25,7 @@
                         @foreach ($reports as $report)
                             <tr>
                                 <td class="table-text" data-title='User'>
-                                    {{ $report->user->first_name }} {{ $report->user->last_name }}
+                                    {{ $report->study->user->first_name }} {{ $report->study->user->last_name }}
                                 </td>
                                 <td class="table-text" data-title='Patient'>
                                     {{ $report->study->patient->first_name }} {{ $report->study->patient->last_name }}

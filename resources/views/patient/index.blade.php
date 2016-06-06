@@ -35,12 +35,12 @@
                                     <a href="{{ url('/patients/ehr/' . $patient->id) }}" class="btn btn-default btn-sm">
                                         <i class="fa fa-eye fa-fw"></i> View EHR
                                     </a>
-                                    {!! Form::open(array('route' => array('patients.destroy', $patient->id), 'method' => 'delete', 'style' => 'display:inline-block;')) !!}
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                    {!! Form::close() !!}
                                     <a href="{{ url('/patients/' . $patient->id . '/edit') }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-edit fa-fw"></i> Edit
                                     </a>
+                                    {!! Form::open(array('route' => array('patients.destroy', $patient->id), 'method' => 'delete', 'style' => 'display:inline-block;')) !!}
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                    {!! Form::close() !!}
                                 </td>
                             </tr>
                         @endforeach

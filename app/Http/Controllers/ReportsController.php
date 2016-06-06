@@ -15,8 +15,6 @@ class ReportsController extends Controller
     
     public function __construct(Report $report)
     {
-        $this->middleware('auth');
-
         $this->report = $report;
         
         View::share(['menu'=> 'reports']);
@@ -29,8 +27,19 @@ class ReportsController extends Controller
      */
     public function index()
     {
+        $reports = $this->report
+                        ->select('reports.*')
+                         ->leftJoin('studies', 'studies.id', '=', 'reports.study_id')
+                         ->where(function($query) {
+                            if(\Auth::user()->role_id > 2)
+                               $query->where('reports.user_id', \Auth::user()->id)
+                                     ->orWhere('studies.user_id', \Auth::user()->id);
+                         })
+                         ->orderBy('published_at', 'desc')
+                         ->get();
+
         return view('reports.index', [
-            'reports' => $this->report->all()->sortByDesc("created_at")
+            'reports' => $reports
         ]);
     }
 
@@ -116,16 +125,5 @@ class ReportsController extends Controller
         $this->report->find($id)->update($input);
         Session::flash('flash_message', 'Information updated ok!');
         return redirect()->route('reports.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

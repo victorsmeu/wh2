@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             {!! Form::model($report, [
-                'method' => 'PUT',
+                'method' => 'POST',
                 'route' => ['reports.update', $report->id]
             ]) !!}
             <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">

@@ -27,7 +27,9 @@
                                     Content
                                 </div>
                                 <div class="panel-body">
+                                    @if(isset($patientData['first_diagnostic']->info)
                                     {!! html_entity_decode($patientData['first_diagnostic']->info) !!}
+                                    @endif
                                 </div>
                             </div>
 
@@ -36,10 +38,9 @@
                                     Documents
                                 </div>
                                 <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['first_diagnostic_file']
-                                         ])
+                                    @if(count($patientData['first_diagnostic_file'] > 0)
+                                    @include ('patient/ehr/list_files', ['files' => $patientData['first_diagnostic_file']])
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -53,7 +54,9 @@
                                     Content
                                 </div>
                                 <div class="panel-body">
+                                    @if(isset($patientData['reason_for_investigation']->info)
                                     {!! html_entity_decode($patientData['reason_for_investigation']->info) !!}
+                                    @endif
                                 </div>
                             </div>
 
@@ -62,10 +65,9 @@
                                     Documents
                                 </div>
                                 <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['reason_for_investigation_file']
-                                         ])
+                                    @if(count($patientData['reason_for_investigation_file'] > 0)
+                                    @include ('patient/ehr/list_files', ['files' => $patientData['reason_for_investigation_file']])
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -78,7 +80,9 @@
                                     Content
                                 </div>
                                 <div class="panel-body">
+                                    @if(isset($patientData['medical_history']->info)
                                     {!! html_entity_decode($patientData['medical_history']->info) !!}
+                                    @endif
                                 </div>
                             </div>
 
@@ -87,10 +91,9 @@
                                     Documents
                                 </div>
                                 <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['medical_history_file']
-                                         ])
+                                    @if(count($patientData['medical_history_file'] > 0)
+                                    @include ('patient/ehr/list_files', ['files' => $patientData['medical_history_file']])
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -104,7 +107,9 @@
                                     Content
                                 </div>
                                 <div class="panel-body">
+                                    @if(isset($patientData['physical_exploration']->info)
                                     {!! html_entity_decode($patientData['physical_exploration']->info) !!}
+                                    @endif
                                 </div>
                             </div>
 
@@ -113,10 +118,9 @@
                                     Documents
                                 </div>
                                 <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['physical_exploration_file']
-                                         ])
+                                    @if(count($patientData['physical_exploration_file'] > 0)
+                                    @include ('patient/ehr/list_files', ['files' => $patientData['physical_exploration_file']])
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -130,7 +134,9 @@
                                     Content
                                 </div>
                                 <div class="panel-body">
+                                    @if(isset($patientData['lab_analysis']->info)
                                     {!! html_entity_decode($patientData['lab_analysis']->info) !!}
+                                    @endif
                                 </div>
                             </div>
 
@@ -139,10 +145,9 @@
                                     Documents
                                 </div>
                                 <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['lab_analysis_file']
-                                         ])
+                                    @if(count($patientData['lab_analysis_file'] > 0)
+                                    @include ('patient/ehr/list_files', ['files' => $patientData['lab_analysis_file']])
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -153,31 +158,7 @@
                         <p>?</p>
                     </div>
 
-                    <div id="current" class="tab-pane fade">
-                        <h3>Current Treatment</h3>
-                        <div class='col-lg-12'>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Content
-                                </div>
-                                <div class="panel-body">
-                                    {!! html_entity_decode($patientData['current_treatment']->info) !!}
-                                </div>
-                            </div>
 
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Documents
-                                </div>
-                                <div class="panel-body">
-                                    @include('patient/ehr/list_files',
-                                        ['label' => 'first_diagnostic_file',
-                                         'files' => $patientData['current_treatment_file']
-                                         ])
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             @endif
         </div>

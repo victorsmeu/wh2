@@ -35,8 +35,36 @@ Route::get('/studies/view/{study_id}/{viewer_id}', ['uses' => 'StudiesController
 Route::get('/studies/accept/{study_id}', ['uses' => 'StudiesController@accept', 'as' => 'studies.accept']);
 Route::get('/studies/decline/{study_id}', ['uses' => 'StudiesController@decline', 'as' => 'studies.decline']);
 
-Route::resource('/reports', 'ReportsController');
-Route::get('/reports/create/{id_study}', ['uses' => 'ReportsController@create', 'as' => 'reports.create']);
+/*Reports */
+Route::get('/reports', [
+    'middleware' => ['auth', 'accessReports'],
+    'uses' => 'ReportsController@index', 'as' => 'reports.index'
+]);
+Route::get('/reports/{id}', [
+    'middleware' => ['auth', 'accessReports'],
+    'uses' => 'ReportsController@show', 'as' => 'reports.show'
+]);
+Route::get('/reports/create/{id_study}', [
+    'middleware' => ['auth', 'roles', 'accessReports'],
+    'uses' => 'ReportsController@create', 'as' => 'reports.create',
+    'roles' => ['root', 'admin', 'medic']
+]);
+Route::get('/reports/{id}/edit', [
+    'middleware' => ['auth', 'roles', 'accessReports'],
+    'uses' => 'ReportsController@edit', 'as' => 'reports.edit',
+    'roles' => ['root', 'admin', 'medic']
+]);
+Route::get('/reports/store', [
+    'middleware' => ['auth', 'roles', 'accessReports'],
+    'uses' => 'ReportsController@edit', 'as' => 'reports.store',
+    'roles' => ['root', 'admin', 'medic']
+]);
+Route::post('/reports/update/{id_report}', [
+    'middleware' => ['auth', 'roles', 'accessReports'],
+    'uses' => 'ReportsController@update', 'as' => 'reports.update',
+    'roles' => ['root', 'admin', 'medic']
+]);
+/* --- */
 
 /*Admin settings */
 Route::get('/admin/settings', [
@@ -86,13 +114,15 @@ Route::get('/medics', [
     'uses' => 'MedicController@index'
 ]);
 Route::get('/medics/edit-cv', [
-    'middleware' => ['auth'],
-    'uses' => 'MedicController@editCV'
+    'middleware' => ['auth', 'roles'],
+    'uses' => 'MedicController@editCV',
+    'roles' => ['root', 'admin', 'medic']
 ]);
 Route::post('/medics/update/{user_id}', [
-    'middleware' => ['auth'],
+    'middleware' => ['auth', 'roles'],
     'uses' => 'MedicController@update',
-    'as' => 'medics.update'
+    'as' => 'medics.update',
+    'roles' => ['root', 'admin', 'medic']
 ]);
 Route::get('/medic/view-cv/{user_id}', [
     'middleware' => ['auth'],

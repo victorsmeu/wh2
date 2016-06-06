@@ -52,5 +52,6 @@ class Kernel extends HttpKernel
         'roles' => \App\Http\Middleware\CheckRole::class,
         'accessPatients' => \App\Http\Middleware\Access\Patients::class,
         'accessUsers' => \App\Http\Middleware\Access\Users::class,
+        'accessReports' => \App\Http\Middleware\Access\Reports::class,
     ];
 }

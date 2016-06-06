@@ -22,7 +22,6 @@ class PatientDataController extends Controller
      */
     public function __construct(PatientData $patientData)
     {
-        $this->middleware('auth');
         $this->middleware('accessPatients');
 
         $this->patientData = $patientData;
