@@ -4,10 +4,10 @@
 <div class="col-md-10 col-md-offset-1">
     <br />
     <div class="panel panel-default">
-        <div class="panel-heading">Welcome</div>
+        <div class="panel-heading">{{ trans('welcome.Welcome') }}</div>
 
         <div class="panel-body">
-            Your Application's Landing Page.
+            {{ trans('welcome.Landing page') }}
         </div>
     </div>
 </div>

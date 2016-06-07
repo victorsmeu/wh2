@@ -195,13 +195,14 @@
         <div class="patients_content">
             <div class="container directory_capable" style="display: none;">
                 <div class="page-header">
-                    <h1>Please push <strong>Choose files</strong> to start uploading files</h1>
+                    <h2>Push <strong>Choose files</strong> to start uploading files</h2>
                 </div>
 
                 <div class="row">
                     <div id="fileHolder">
                         <input type="file" multiple="" webkitdirectory="" id="fileURL">
                     </div>
+                    <br />
                     <div class="row">
                         <progress min="0" max="100" value="0">0% complete</progress>
                         <h4>Files to upload:</h4>

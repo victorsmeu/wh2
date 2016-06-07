@@ -5,7 +5,7 @@ namespace App\Http\Middleware\Access;
 use Closure;
 
 
-class Reports extends Access
+class MyReports extends Access
 {
 
     protected $model = 'Report';
@@ -16,11 +16,7 @@ class Reports extends Access
 
         if ($report_id && \Auth::user()->role_id > 2 &&
                 (\App\Report::where('id', $report_id)
-                        ->where('user_id', \Auth::user()->id)->count() == 0 &&
-                \App\Report::whereHas('study', function ($query) use($report_id) {
-                    $query->where('reports.id', $report_id);
-                    $query->where('user_id', \Auth::user()->id);
-                })->count() == 0
+                        ->where('user_id', \Auth::user()->id)->count() == 0 
                 )) {
             return redirect()->back();
         }

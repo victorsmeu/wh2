@@ -51,7 +51,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'roles' => \App\Http\Middleware\CheckRole::class,
         'accessPatients' => \App\Http\Middleware\Access\Patients::class,
+        'accessMyPatients' => \App\Http\Middleware\Access\MyPatients::class,
         'accessUsers' => \App\Http\Middleware\Access\Users::class,
         'accessReports' => \App\Http\Middleware\Access\Reports::class,
+        'accessMyReports' => \App\Http\Middleware\Access\MyReports::class,
     ];
 }

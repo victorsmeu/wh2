@@ -35,6 +35,8 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-top-links navbar-right navbar-collapse collapse">
+                <li><a href='{{ url('/set-lang/ro') }}'>Ro</a></li>
+                <li><a href='{{ url('/set-lang/en') }}'>En</a></li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>

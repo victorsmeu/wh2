@@ -76,13 +76,11 @@
                                 <i class="fa fa-male fa-fw"></i>&nbsp; Patients
                             </a>
                         </li>
-                        @if(Auth::user()->role_id == 4)
                         <li>
                             <a href="{{ url('/medics') }}">
                                 <i class="fa fa-user-md fa-fw"></i>&nbsp; Medics
                             </a>
                         </li>
-                        @endif
                         @if(Auth::user()->role_id <= 2)
                            <li>
                                 <a href="{{ url('/users') }}" class="@if($menu=='users') active @endif">

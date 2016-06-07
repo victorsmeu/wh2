@@ -13,8 +13,6 @@ class SettingsController extends Controller
     
     public function __construct(Viewer $viewer)
     {
-        $this->middleware('auth');
-
         $this->viewers = $viewer;
         
         View::share(['menu'=> 'settings']);

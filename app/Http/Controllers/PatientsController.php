@@ -34,7 +34,7 @@ class PatientsController extends Controller
     public function index()
     {
         $patients = $this->patient
-                         ->select(DB::raw('patients.id, first_name, last_name, gender, YEAR(CURDATE())-year_of_birth AS age'))
+                         ->select(DB::raw('patients.id, patients.user_id, first_name, last_name, gender, YEAR(CURDATE())-year_of_birth AS age'))
                          ->leftJoin('studies', 'studies.patient_id', '=', 'patients.id')
                          ->leftJoin('studies_users', 'studies_users.study_id', '=', 'studies.id')
                          ->where(function($query) {

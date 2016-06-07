@@ -14,7 +14,9 @@
                         <!-- Table Headings -->
                         <thead>
                             <th>Name</th>
+                            <th>Label</th>
                             <th>URL</th>
+                            <th>Access</th>
                             <th>&nbsp;</th>
                         </thead>
 
@@ -25,8 +27,14 @@
                                 <td class="table-text" data-title='Name'>
                                     {{ $viewer->name }}
                                 </td>
+                                <td class="table-text" data-title='Label'>
+                                    {{ $viewer->label }}
+                                </td>
                                 <td class="table-text" data-title='URL'>
                                     {{ $viewer->link }}
+                                </td>
+                                <td class="table-text" data-title='access'>
+                                    {{ $viewer->access }}
                                 </td>
                                 
                                 <td style="text-align:right">

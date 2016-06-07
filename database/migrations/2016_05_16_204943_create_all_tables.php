@@ -157,6 +157,8 @@ class CreateAllTables extends Migration
         Schema::create('viewers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('label');
+            $table->enum('access', ['all', 'medics', 'patients']);
             $table->string('link');
         });
     }

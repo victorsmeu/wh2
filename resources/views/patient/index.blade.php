@@ -32,9 +32,15 @@
                                     {{ $patient->age }}
                                 </td>
                                 <td style="text-align:right; padding: 8px;">
-                                    <a href="{{ url('/patients/ehr/' . $patient->id) }}" class="btn btn-default btn-sm">
+                                    @if($patient->user_id != \Auth::user()->id)
+                                    <a href="{{ url('/patients/ehr/' . $patient->id . '/view') }}" class="btn btn-default btn-sm">
                                         <i class="fa fa-eye fa-fw"></i> View EHR
                                     </a>
+                                    @else
+                                    <a href="{{ url('/patients/ehr/' . $patient->id ) }}" class="btn btn-default btn-sm">
+                                        <i class="fa fa-eye fa-fw"></i> Edit EHR
+                                    </a>
+                                    @endif
                                     <a href="{{ url('/patients/' . $patient->id . '/edit') }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-edit fa-fw"></i> Edit
                                     </a>

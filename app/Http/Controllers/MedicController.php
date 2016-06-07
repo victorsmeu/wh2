@@ -16,8 +16,6 @@ class MedicController extends Controller
 
     public function __construct(User $user, MedicData $medicData)
     {
-        $this->middleware('auth');
-
         $this->user = $user;
         $this->medicData = $medicData;
 

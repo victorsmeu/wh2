@@ -22,8 +22,6 @@ class PatientDataController extends Controller
      */
     public function __construct(PatientData $patientData)
     {
-        $this->middleware('accessPatients');
-
         $this->patientData = $patientData;
         
         View::share(['menu'=> 'patients']);

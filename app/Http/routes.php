@@ -17,7 +17,11 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/set-lang/{locale}', function ($locale) {
+    App::setLocale($locale);
+    setcookie('locale', $locale, time() + 60 * 60 * 24 * 30, '/');
+    return back();
+});
 
 Route::get('/secure-download/{id}/{file_id}', 'DownloadController@secureDownload');
 Route::get('/get-medic-file/{id}/{file_id}', 'DownloadController@medicInfoDownload');
@@ -50,7 +54,7 @@ Route::get('/reports/create/{id_study}', [
     'roles' => ['root', 'admin', 'medic']
 ]);
 Route::get('/reports/{id}/edit', [
-    'middleware' => ['auth', 'roles', 'accessReports'],
+    'middleware' => ['auth', 'roles', 'accessMyReports'],
     'uses' => 'ReportsController@edit', 'as' => 'reports.edit',
     'roles' => ['root', 'admin', 'medic']
 ]);
@@ -60,7 +64,7 @@ Route::get('/reports/store', [
     'roles' => ['root', 'admin', 'medic']
 ]);
 Route::post('/reports/update/{id_report}', [
-    'middleware' => ['auth', 'roles', 'accessReports'],
+    'middleware' => ['auth', 'roles', 'accessMyReports'],
     'uses' => 'ReportsController@update', 'as' => 'reports.update',
     'roles' => ['root', 'admin', 'medic']
 ]);
@@ -87,22 +91,22 @@ Route::put('/admin/settings/update-viewer/{viewers}', [
 
 /*Patient Data */
 Route::get('/patients/ehr/{id}', [
-     'middleware' => ['auth'],
+     'middleware' => ['auth', 'accessMyPatients'],
      'uses' => 'PatientDataController@index',
      'as' => 'patients.ehr'
 ]); 
 Route::get('/patients/ehr/{id}/view', [
-     'middleware' => ['auth'],
+     'middleware' => ['auth', 'accessPatients'],
      'uses' => 'PatientDataController@view',
      'as' => 'patients.ehr.view'
 ]); 
 Route::post('/patients/ehr/{id}', [
-     'middleware' => ['auth'],
+     'middleware' => ['auth', 'accessMyPatients'],
      'uses' => 'PatientDataController@update',
      'as' => 'patient-data.update'
 ]); 
 Route::post('/patients/ehr/upload/{id}', [
-     'middleware' => ['auth'],
+     'middleware' => ['auth', 'accessMyPatients'],
      'uses' => 'PatientDataController@upload',
      'as' => 'patient-data.upload'
 ]); 
