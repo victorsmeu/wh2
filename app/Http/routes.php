@@ -27,6 +27,8 @@ Route::get('/set-lang/{locale}', function ($locale) {
     return back();
 });
 
+Route::get('/conference/index', 'ConferenceController@index');
+
 Route::get('/secure-download/{id}/{file_id}', 'DownloadController@secureDownload');
 Route::get('/get-medic-file/{id}/{file_id}', 'DownloadController@medicInfoDownload');
 Route::get('/get-medic-image/{id}/{file_id}', 'DownloadController@medicImageView');

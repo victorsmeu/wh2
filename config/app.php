@@ -148,8 +148,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-
         /*
          * Application Service Providers...
          */

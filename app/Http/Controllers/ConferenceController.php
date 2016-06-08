@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use View;
 use App\Http\Requests;
 
 class ConferenceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        View::share(['menu'=> 'confenrence']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,7 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        //
+        return view('conference');
     }
 
     /**
