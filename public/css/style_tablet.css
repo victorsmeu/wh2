@@ -1,0 +1,53 @@
+.wrapper, .about_wrapper {width:90%; margin:0 auto;}
+
+.webhippocrates_logo {background-size:100%; width:100%; height: 565px; margin:auto; }
+.homepage_content {padding-top:70px;}
+.homepage_content h2 {font-size:40px; margin-top:0;}
+.homepage_content h3 {font-size:1.6em;}
+.content_white {width:100%;}
+.content_white h2 {font-size:3em;}
+.blue_arrow {z-index:1;}
+
+.discover_button {top:auto; margin-top:85px;}
+
+.first_column {width:100%; margin-bottom:20px; float:none;}
+.second_column {width:100%; margin-bottom:20px; float:none;}
+.third_column {width:100%; margin-bottom:20px; float:none;}
+
+.clock_image {background-size:100%; width: 100px; height: 120px; background-position: center top}
+.glass_image {background-size:100%; width: 100px; height: 140px;}
+.doctor_image {background-size:100%; width: 100px; height: 164px;}
+.column_content {margin-left:20px; width:580px; margin-top:-5px;}
+
+.what_we_do {overflow:hidden; width:100%;}
+.what_we_do .wrapper {width:90%;}
+.computer_image {background-size:100%; width:100%; height:0; padding-bottom:70%;}
+.computer_image iframe {height: 51%; left: 20%; position: absolute; top: 23%; width: 56.5%;}
+.what_we_do_content {width:90%; margin: 40px auto; float:none;}
+.what_we_do_content h2 {font-size:2.7em;}
+
+.content_white_wrapper {padding-bottom:0; width: 94%;}
+
+.content_white h3 {font-size:30px;}
+.content_white h4 {font-size:20px; margin-bottom:40px;}
+
+.services_included {width:90%;}
+.services_text {width: 240px; line-height:inherit;}
+.row {margin-bottom:17px;}
+
+.small_arrow {top:28px;}
+
+.try_it_now_button {margin-top:40px; background-size:100%; width:80%; height:78px; font-size: 36px; line-height:36px;}
+
+footer .footer_wrapper {width:100%; padding:30px 20px;}
+footer .footer_wrapper .copy { font-size:16px;}
+footer .footer_wrapper nav {margin-right:20px;}
+footer .footer_wrapper nav a {font-size:16px; padding-left:20px;}
+
+
+.content_wrapper {width:95%;}
+.register_box {width:44%;}
+.register_box h2 {font-size:45px;}
+.register_box h3 {font-size:30px;}
+
+.newregister {width:100%;}

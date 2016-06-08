@@ -1,0 +1,62 @@
+#wrapper {overflow:hidden;}
+#logo a {font-size:2em;} 
+
+.navbar-default {height:54px;}
+.nav {background-color: rgba(12,20,40,0.85); box-shadow: 0 2px 3px #07a; margin-top:3px;}
+.navbar-top-links li {display:Block;}
+#language_box {width: 80px; height: 32px; top: 6px; right: 34px;}
+.view_video {top: auto; margin-left:-84px; margin-top:15px;}
+
+.webhippocrates_logo {background-size:100%; width:100%; height: 240px; margin:auto; }
+
+.homepage_content {padding:10px;}
+.homepage_content h2 {font-size:2em; margin-top:0; margin-bottom:20px; line-height:normal;}
+.homepage_content h3 {font-size:1.3em;}
+.content_white {width:100%;}
+.content_white h2 {font-size:3em;}
+.blue_arrow {z-index:1;}
+
+.wrapper, .about_wrapper {width:90%; margin:0 auto;}
+
+.discover_button {top:auto; margin-top:85px;}
+
+.first_column {width:100%; margin-bottom:20px; float:none;}
+.second_column {width:100%; margin-bottom:20px; float:none;}
+.third_column {width:100%; margin-bottom:20px; float:none;}
+
+.clock_image {background-size:100%; width: 40px; height: 160px; background-position: center top}
+.glass_image {background-size:100%; width: 40px; height: 160px;}
+.doctor_image {background-size:100%; width: 40px; height: 160px;}
+.column_content {margin-left:20px; width:235px; margin-top:-5px;}
+
+.what_we_do {overflow:hidden; width:100%;}
+.what_we_do .wrapper {width:90%;}
+.computer_image {background-size:100%; width:100%; height:0; padding-bottom:70%;}
+.computer_image iframe {height: 51%; left: 20%; position: absolute; top: 23%; width: 56.5%;}
+.what_we_do_content {width:90%; margin: 40px auto; float:none;}
+.what_we_do_content h2 {font-size:2.7em;}
+
+.content_white_wrapper {padding-bottom:0; width: 300px;}
+
+.content_white h3 {font-size:24px;}
+.content_white h4 {font-size:18px; margin-bottom:40px;}
+
+.second_area {padding:10px;}
+
+.services_first_column, .services_second_column  {width:auto; float:none; margin:0;}
+.services_text {padding-bottom:20px;}
+.services_icon {width:25px; height:30px;}
+
+.small_arrow {top:28px;}
+
+.try_it_now_button {margin-top:40px; background-size:100%; width:80%; height:78px; font-size: 32px; line-height:36px;}
+
+footer .footer_wrapper {width:100%; padding:10px;}
+footer .footer_wrapper .copy {float:none; font-size: 20px;}
+footer .footer_wrapper nav {margin: 20px; float:none;}
+footer .footer_wrapper nav a {font-size:1.4em; padding: 1px 10px; display:block;}
+
+.register_box {margin:10px; float:none; width:99%;}
+.register_box h3 {font-size:28px;}
+.register_box label {float:none; font-size:1em;}
+.register_box:nth-child(2) {margin-left:10px; margin-top:40px;}

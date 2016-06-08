@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Study;
 use App\User;
+use App\Patient;
 use View, Session;
 
 class StudiesController extends Controller
 {
-    protected $study, $users;
+    protected $studies, $users;
     
     public function __construct(Study $study, User $user)
     {
@@ -28,7 +29,7 @@ class StudiesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Patient $patients)
     {
         $myStudies = $this->studies
                         ->where(function($query) {
@@ -51,17 +52,42 @@ class StudiesController extends Controller
         } else {
             $usersStudies = [];
         }
+        
+        $arrayPatients = ['' => '- select -'];
+        $patientList = $patients->where('user_id', \Auth::user()->id)->get();
+        foreach($patientList as $patient) {
+            $arrayPatients[$patient->id] = $patient->first_name . ' ' . $patient->last_name;
+        }
+        
         return view('studies.index', [
             'myStudies' => $myStudies,
             'usersStudies' => $usersStudies,
-            'medics' => $this->users->medics()
+            'medics' => $this->users->medics(),
+            'arrayPatients' => $arrayPatients
         ]);
     }
 
     
-    public function create()
+    public function create(\App\Patient $patients)
     {
-        return view('studies.create');
+        return view('studies.create', [
+            'patients' => $patients->where('patients.user_id', \Auth::user()->id)
+                                   ->get()
+        ]);
+    }
+    
+    
+    public function update(Request $request, $study_id)
+    {
+        $this->validate($request, [
+            'patient_id' => 'required|integer',
+        ]);
+        
+        $this->studies->where('id', $study_id)
+                      ->where('user_id', \Auth::user()->id)
+                      ->update(['patient_id' => $request->patient_id]);  
+        
+        return redirect()->back();
     }
     
     

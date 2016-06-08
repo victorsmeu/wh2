@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             {!! Form::open( array( 'route' => ['patients.store'], 'role' => 'form' ) ) !!}
-            @include('patient/form')
+            @include('patients/form')
             {!! Form::close() !!}
         </div>
     </div>

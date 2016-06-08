@@ -9,12 +9,16 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ url('/css') }}/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url('/css') }}/metisMenu.min.css">
     <link rel="stylesheet" href="{{ url('/css') }}/sb-admin-2.css">
+    <link href='//fonts.googleapis.com/css?family=Antic+Slab' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="{{ url('/css') }}/frontend.css">
-    <link rel="stylesheet" href="{{ url('/css') }}/font-awesome.min.css">
+    <link href="{{ url('/css') }}/style_mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 767px)" />
+    <link href="{{ url('/css') }}/style_tablet.css" rel="stylesheet" type="text/css" media="only screen and (min-width: 768px) and (min-device-width: 768px) and (max-width: 1024px) and (max-device-width: 1024px)" />
+	
 
 </head>
-<body id="app-layout">
+<body data-spy="scroll" data-offset="25">
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
             <div class="navbar-header">
@@ -27,9 +31,11 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    WH2
-                </a>
+                <div id='logo'>
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <span>web</span>hippocrates<sup>2</sup>
+                    </a>
+                </div>    
             </div>
 
 
@@ -48,7 +54,7 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
+                            <li><a>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
                     </li>
@@ -65,6 +71,10 @@
     <!-- JavaScripts -->
     <script src="{{ url('/js') }}/jquery.min.js"></script>
     <script src="{{ url('/js') }}/bootstrap.min.js"></script>
+    <script src="{{ url('/js') }}/metisMenu.min.js"></script>
+    <script src="{{ url('/js') }}/smoothScroll.js"></script>
+    <script src="{{ url('/js') }}/scrollReveal.js"></script>
+    <script src="{{ url('/js') }}/newsite_scripts.js"></script>
 </body>
 </html>
 

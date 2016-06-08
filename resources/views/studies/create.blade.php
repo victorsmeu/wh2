@@ -9,7 +9,7 @@
         <script type="text/javascript" src="https://webhippocrates.com/js/xdomain.min.js" slave="https://upload.webhippocrates.com/proxy.html"></script>
         <script type="text/javascript" src="https://webhippocrates.com/js/dicomParser.js"></script>
         <script src="https://webhippocrates.com/upload/lib/sweet-alert.min.js"></script>
-        <script src="/js/modernizr.js"></script>
+        <script src="{{ url('/js') }}/modernizr.js"></script>
         <link rel="stylesheet" type="text/css" href="https://webhippocrates.com/upload/lib/sweet-alert.css">
         <style>
             .ui-page-theme-a a, html .ui-bar-a a, html .ui-body-a a, html body .ui-group-theme-a a {font-weight:inherit;}
@@ -19,7 +19,7 @@
                 font-size: .6em;
                 line-height: 1.5em;
                 text-indent: .5em;
-                width: 100em;
+                width: 80em;
                 height: 1.8em;
                 border: 1px solid #0063a6;
                 background: #fff;
@@ -145,9 +145,10 @@
                 try {
                     var dataSet = dicomParser.parseDicom(byteArray);
                     var sopInstanceUid = dataSet.string('x0020000d');
+                    var patient_id = $("#patient_id").val();
                     $('#sopInstanceUid').text(sopInstanceUid);
                     if (has_post == 0 && sopInstanceUid != "") {
-                        $.post("https://webhippocrates.com/en/default/index/update-study-status", {id_study: sopInstanceUid, id_user: "55"}, function (data) {
+                        $.post("https://webhippocrates.com/en/default/index/update-study-status", {study_id: sopInstanceUid, user_id: "{{ Auth->user()->id }}", patient_id: patient_id}, function (data) {
                             if (data != 'false') {
                                 has_post = 1;
                             }
@@ -193,27 +194,61 @@
             });
         </script>
         <div class="patients_content">
-            <div class="container directory_capable" style="display: none;">
+            <div class="directory_capable" style="display: none;">
+                <div class="page-header">
+                    <h2>Select patient</h2>
+                </div>
+                
+                <div class="form-group">
+                    <select class="form-control" name="patient_id" id="patient_id">
+                    @foreach($patients as $patient)
+                    <option value='{{ $patient->id }}'>{{ $patient->first_name }} {{ $patient->last_name }} </option>
+                    @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class='btn btn-primary' id='add_patient' data-target="#myModal" data-toggle="modal"><i class='fa fa-plus-square'></i>&nbsp; Add New Patient</button>
+                </div>
+                
+                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
+                                <h4 id="myModalLabel" class="modal-title">Add New Patient</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-lg-12">
+                                    {!! Form::open( array( 'route' => ['patients.store'], 'role' => 'form' ) ) !!}
+                                    @include('patients/form')
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                
                 <div class="page-header">
                     <h2>Push <strong>Choose files</strong> to start uploading files</h2>
                 </div>
 
-                <div class="row">
-                    <div id="fileHolder">
-                        <input type="file" multiple="" webkitdirectory="" id="fileURL">
-                    </div>
-                    <br />
-                    <div class="row">
-                        <progress min="0" max="100" value="0">0% complete</progress>
-                        <h4>Files to upload:</h4>
-                        <div id="counter"></div>
-                        <ul id="sopInstanceUid"></ul>
-                        <ul id="fileOutput"></ul>
-                        <ul id="parseError"></ul>
-                    </div>     
+                
+                <div id="fileHolder">
+                    <input type="file" multiple="" webkitdirectory="" id="fileURL">
                 </div>
+                <br />
+
+                <progress min="0" max="100" value="0">0% complete</progress>
+                <h4>Files to upload:</h4>
+                <div id="counter"></div>
+                <ul id="sopInstanceUid"></ul>
+                <ul id="fileOutput"></ul>
+                <ul id="parseError"></ul>
+                    
             </div>
-            <div class="container directory_incapable" style="display: block;">
+            <div class="directory_incapable" style="display: block;">
                 <h1>Your current browser doesn't support directory upload.</h1>
                 <p><a href="https://www.google.com/chrome/browser/desktop/">Download Google Chrome</a> in order to upload medical studies</p>
             </div>

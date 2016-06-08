@@ -31,6 +31,7 @@
             </div>
         </div>
         <div class="col-lg-12">
+            <hr />
             <a href='{{ url('/studies/create') }}' class='btn btn-primary'>Upload new Medical Study</a>
         </div>
     </div>

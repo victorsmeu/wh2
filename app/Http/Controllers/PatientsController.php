@@ -44,7 +44,7 @@ class PatientsController extends Controller
                          })
                          ->get();
 
-        return view('patient.index', [
+        return view('patients.index', [
             'patients' => $patients
         ]);
     }
@@ -56,7 +56,7 @@ class PatientsController extends Controller
      */
     public function create()
     {
-        return view('patient.create');
+        return view('patients.create');
     }
 
     /**
@@ -71,7 +71,7 @@ class PatientsController extends Controller
         $input['user_id'] = \Auth::user()->id;
         $this->patient->create($input);
 
-        return redirect('/patients');
+        return redirect()->back();
     }
 
     /**
@@ -98,7 +98,7 @@ class PatientsController extends Controller
 //        }
         
         
-        return view('patient.edit', [
+        return view('patients.edit', [
             'patient' => $this->patient->find($id)
         ]);
     }

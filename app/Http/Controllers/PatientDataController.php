@@ -29,7 +29,7 @@ class PatientDataController extends Controller
     
     public function index($id)
     {
-        return view('patient.ehr.index', [
+        return view('patients.ehr.index', [
             'patientData' => $this->patientData->getDataForPatient($id),
             'patient_id' => $id
         ]);
@@ -37,7 +37,7 @@ class PatientDataController extends Controller
     
     public function view($id)
     {
-        return view('patient.ehr.view', [
+        return view('patients.ehr.view', [
             'patientData' => $this->patientData->getDataForPatient($id),
             'patient_id' => $id
         ]);

@@ -22,7 +22,6 @@ class DashboardController extends Controller
     
     public function index()
     {
-        $role = $this->user->role->name;
         return view('dashboard');
     }
 }

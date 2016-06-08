@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/new-account-pending', function () {
+    return view('new-account-pending');
+});
+
 Route::auth();
 
 Route::get('/set-lang/{locale}', function ($locale) {
@@ -38,6 +42,7 @@ Route::post('/studies/invite', ['uses' => 'StudiesController@invite', 'as' => 's
 Route::get('/studies/view/{study_id}/{viewer_id}', ['uses' => 'StudiesController@view', 'as' => 'studies.view']);
 Route::get('/studies/accept/{study_id}', ['uses' => 'StudiesController@accept', 'as' => 'studies.accept']);
 Route::get('/studies/decline/{study_id}', ['uses' => 'StudiesController@decline', 'as' => 'studies.decline']);
+Route::post('/studies/update/{study_id}', ['uses' => 'StudiesController@update', 'as' => 'studies.update']);
 
 /*Reports */
 Route::get('/reports', [

@@ -60,7 +60,7 @@
                                     {{ $user->email }}
                                 </td>
                                 <td data-title='Role'>
-                                    {{ $user->role->name }}
+                                    {!! isset($user->role) ?  $user->role->name : '<i class="fa fa-times"></i>' !!}
                                 </td>
                                 <td data-title='Active'>
                                     {!! $user->active ?  '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>' !!}

@@ -12,7 +12,7 @@
                 'method' => 'PUT',
                 'route' => ['patients.update', $patient->id]
             ]) !!}
-            @include('patient/form')
+            @include('patients/form')
             {!! Form::close() !!}
         </div>
     </div>

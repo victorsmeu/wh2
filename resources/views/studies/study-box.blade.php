@@ -12,7 +12,48 @@
                 <b>Patient:</b> 
                 <a href='{{ url('/patients/ehr/' . $study->patient_id . '/view') }}' data-placement='top' data-toggle='tooltip' title='View patient EHR'>
                     {{ $study->patient->first_name }}  {{ $study->patient->last_name }}
-                </a> 
+                </a> &nbsp;
+                @if($study->accepted != 1) 
+                <button class='btn btn-default btn-xs' id='add_patient' data-target="#myModal" data-toggle="modal">Change Patient</button>
+                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" 
+                     class="modal fade 
+                     @if ($errors->has('patient_id')) in" style="display: block;"
+                     @else " style="display: none;"
+                     @endif
+                     >
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
+                                <h4 id="myModalLabel" class="modal-title">Change Patient</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-lg-12">
+                                    {!! Form::open( array( 'route' => ['studies.update', $study->id], 'role' => 'form' ) ) !!}
+                                    <div class="form-group{{ $errors->has('patient_id') ? ' has-error' : '' }}">
+                                        {!! Form::label('patient_id', 'Patient:', ['class' => 'control-label']) !!}
+                                        {!! Form::select('patient_id', $arrayPatients, null, ['class' => 'form-control']) !!}
+
+                                        @if ($errors->has('patient_id'))
+                                            <span class="help-block">
+                                            <strong>{{ $errors->first('patient_id') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fa fa-btn fa-user"></i> &nbsp; Submit
+                                        </button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                @endif
             </p>
             <hr />
             <p><b>Study data</b></p>
@@ -30,7 +71,7 @@
                         @if(isset($study->reports) && count($study->reports) > 0)
                             @foreach($study->reports as $report)
                                 @if($report->user_id == $user->user_id)
-                                    <a href='{{ url('/reports/' . $report->id) }}' class='btn btn-primary btn-sm'>View Report</a>
+                                    <a href='{{ url('/reports/' . $report->id) }}' class='btn btn-default btn-sm'>View Report</a>
                                 @endif
                             @endforeach
                         @endif
