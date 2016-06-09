@@ -17,21 +17,17 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-//        $requestParameters = $request->route()->parameters();
-//        $table = key($requestParameters);
-//        $id = $requestParameters[$table];
-//        $user_id = \Auth::user()->id;
-//        
-        if(\Auth::user()->role_id == 0) {
-            return redirect('/new-account-pending');
-        }
-        
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
                 return redirect()->guest('login');
             }
+        }
+        
+        //Assume new account, no role_id, not validated
+        if (\Auth::user()->role_id == 0) {
+            return redirect('/new-account-pending');
         }
 
         return $next($request);

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Http\Requests;
 use App\Report;
+use App\History;
 use Auth, View;
 
 
@@ -61,7 +62,7 @@ class ReportsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, History $history)
     {
         $active = ($request->submit == 'publish') ? 1 : 0;
         $published_at = ($request->submit == 'publish') ? date('Y-m-d H:i:s') : 'null';
@@ -76,6 +77,12 @@ class ReportsController extends Controller
         $input['user_id'] = \Auth::user()->id;
         
         $this->report->create($input);
+        
+        $history::create([
+            'user_id' => \Auth::user()->id,
+            'action' => 'New report added',
+            'data' => 'A new report was added study #id' . $request->study_id
+        ]);
 
         return redirect('/reports');
     }
@@ -118,11 +125,21 @@ class ReportsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, History $history)
     {
         $input = $request->all();
-
+        $old_data = $this->report->find($id);
         $this->report->find($id)->update($input);
+        
+        if($old_data->active != $input['active']) {
+            $status = ($input['active'] == 1) ? 'active' : 'inactive';
+            $history::create([
+                'user_id' => $id,
+                'action' => 'Report marked as ' . $status,
+                'data' => 'Report id #' . $id . ' has been marked as  ' . $status
+            ]);
+        }
+        
         Session::flash('flash_message', 'Information updated ok!');
         return redirect()->route('reports.index');
     }

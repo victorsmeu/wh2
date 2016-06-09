@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Http\Requests;
 use App\User;
+use App\History;
 use View;
 
 class UserController extends Controller
@@ -124,19 +125,32 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. Will check previous information to be able to write log
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, History $history)
     {
+        $old_data = $this->user->find($id);
         $input = $request->all();
-        if(isset($input['password']))
+        
+        if(isset($input['password'])) {
             $input['password'] = bcrypt($input['password']);
+        }
 
         $this->user->find($id)->update($input);
+        
+        if($old_data->active != $input['active']) {
+            $status = ($input['active'] == 1) ? 'active' : 'inactive';
+            $history::create([
+                'user_id' => $id,
+                'action' => 'Account status modified',
+                'data' => 'Account has been marked as  ' . $status
+            ]);
+        }
+        
         Session::flash('flash_message', 'Information updated ok!');
         return redirect()->route('users.index');
     }

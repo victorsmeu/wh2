@@ -81,6 +81,15 @@ class CreateAllTables extends Migration
             $table->text('info');
             $table->timestamps();
         });
+        
+        Schema::create('user_data', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('label');
+            $table->text('info');
+            $table->timestamps();
+        });
 
         Schema::create('studies', function (Blueprint $table) {
             $table->increments('id');
@@ -175,6 +184,7 @@ class CreateAllTables extends Migration
         Schema::drop('medic_specialties');
         Schema::drop('patient_data');
         Schema::drop('medic_data');
+        Schema::drop('user_data');
         Schema::drop('patients');
         Schema::drop('reports');
         Schema::drop('specialties');

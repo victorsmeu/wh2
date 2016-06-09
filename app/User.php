@@ -27,6 +27,12 @@ class User extends Authenticatable
     ];
     
     
+    public function userData()
+    {
+        return $this->hasMany('App\UserData', 'user_id', 'id');
+    }
+    
+    
     public function medicSpecialties()
     {
         return $this->hasMany('App\MedicSpecialty', 'user_id', 'id');

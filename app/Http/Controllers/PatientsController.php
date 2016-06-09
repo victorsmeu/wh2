@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB, Session, View;
 use App\Http\Requests\PatientRequest; //validation
 use App\Patient;
+use App\History;
 
 class PatientsController extends Controller
 {
@@ -65,11 +66,17 @@ class PatientsController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRequest $request)
+    public function store(PatientRequest $request, History $history)
     {
         $input = $request->all();
         $input['user_id'] = \Auth::user()->id;
         $this->patient->create($input);
+        
+        $history::create([
+            'user_id' => \Auth::user()->id,
+            'action' => 'New patient added',
+            'data' => 'A new patient was added: ' . $input['first_name'] . ' ' . $input['last_name'] 
+        ]);
 
         return redirect()->back();
     }

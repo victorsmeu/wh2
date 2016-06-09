@@ -138,4 +138,34 @@ class AuthController extends Controller
                 ]);
         }
     }
+    
+    
+    /**
+     * Handle a registration request for the application. OVERRIDES DEFAULT!
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request, \App\History $history)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        
+        $newUser = $this->create($request->all());
+        
+        $history::create([
+            'user_id' => $newUser->id,
+            'action' => 'New account open',
+            'data' => 'New account successfully opened at ' . date('Y-m-d H:i')
+        ]);
+
+        Auth::guard($this->getGuard())->login($newUser);
+
+        return redirect($this->redirectPath());
+    }
 }

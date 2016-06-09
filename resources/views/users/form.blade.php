@@ -66,6 +66,7 @@
 <div class="form-group">
     <div class="checkbox">
         <label>
+            <input type="hidden" name="active" value="0" />
             {!! Form::checkbox('active', 1, null) !!} Active
         </label>
     </div>

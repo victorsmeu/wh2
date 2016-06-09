@@ -19,6 +19,8 @@ Route::get('/new-account-pending', function () {
     return view('new-account-pending');
 });
 
+Route::get('/hide-welcome', 'UserDataController@hideWelcome');
+
 Route::auth();
 
 Route::get('/set-lang/{locale}', function ($locale) {
