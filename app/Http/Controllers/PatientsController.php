@@ -77,8 +77,8 @@ class PatientsController extends Controller
             'action' => 'New patient added',
             'data' => 'A new patient was added: ' . $input['first_name'] . ' ' . $input['last_name'] 
         ]);
-
-        return redirect()->back();
+        Session::flash('flash_message', 'Information added ok!');
+        return redirect()->route('patients.index');
     }
 
     /**

@@ -49,7 +49,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($study_id)
+    public function create($patient_id, $study_id)
     {
         return view('reports.create', [
             'study_id' => $study_id
@@ -76,14 +76,16 @@ class ReportsController extends Controller
         
         $input['user_id'] = \Auth::user()->id;
         
-        $this->report->create($input);
+        $report = $this->report->create($input);
         
-        $history::create([
-            'user_id' => \Auth::user()->id,
-            'action' => 'New report added',
-            'data' => 'A new report was added study #id' . $request->study_id
-        ]);
-
+        if($active == 1) {        
+            $history::create([
+                'user_id' => $report->study->user_id,
+                'action' => 'New report added',
+                'data' => 'A new report was added for patient: ' . $report->study->patient->first_name . ' ' . $report->study->patient->last_name
+            ]);
+        }
+        
         return redirect('/reports');
     }
 
@@ -93,11 +95,20 @@ class ReportsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, History $history)
     {
-        $report = $this->report->find($id);
-        if(Auth::user()->role_id > 2 && Auth::user()->id != $report->user_id ) {
+        $oldReportData = $this->report->find($id);
+        
+        if(Auth::user()->role_id > 2 && Auth::user()->id != $oldReportData->user_id ) {
             $this->report->find($id)->update(['viewed' => 1, 'viewed_at' => date('Y-m-d H:i:s')]);
+            
+            if($oldReportData->viewed == 0) {
+                $history::create([
+                    'user_id' => $oldReportData->user_id,
+                    'action' => 'Report viewed',
+                    'data' => 'Report for patient: ' . $oldReportData->study->patient->first_name . ' ' . $oldReportData->study->patient->last_name . ' viewed'
+                ]);
+            }
         }
         
         return view('reports.view', [
@@ -128,13 +139,13 @@ class ReportsController extends Controller
     public function update(Request $request, $id, History $history)
     {
         $input = $request->all();
-        $old_data = $this->report->find($id);
+        $oldReportData = $this->report->find($id);
         $this->report->find($id)->update($input);
         
-        if($old_data->active != $input['active']) {
+        if($oldReportData->active != $input['active']) {
             $status = ($input['active'] == 1) ? 'active' : 'inactive';
             $history::create([
-                'user_id' => $id,
+                'user_id' => $oldReportData->study->user_id,
                 'action' => 'Report marked as ' . $status,
                 'data' => 'Report id #' . $id . ' has been marked as  ' . $status
             ]);

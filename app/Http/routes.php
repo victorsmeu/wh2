@@ -47,6 +47,10 @@ Route::get('/studies/view/{study_id}/{viewer_id}', ['uses' => 'StudiesController
 Route::get('/studies/accept/{study_id}', ['uses' => 'StudiesController@accept', 'as' => 'studies.accept']);
 Route::get('/studies/decline/{study_id}', ['uses' => 'StudiesController@decline', 'as' => 'studies.decline']);
 Route::post('/studies/update/{study_id}', ['uses' => 'StudiesController@update', 'as' => 'studies.update']);
+Route::match(['get', 'post'], '/studies/sync-information/study_id_dicom/{study_id_dicom}', [
+    'uses' => 'StudiesController@syncInformation', 
+    'as' => 'studies.syncInformation'
+]);
 
 /*Reports */
 Route::get('/reports', [
@@ -57,8 +61,8 @@ Route::get('/reports/{id}', [
     'middleware' => ['auth', 'accessReports'],
     'uses' => 'ReportsController@show', 'as' => 'reports.show'
 ]);
-Route::get('/reports/create/{id_study}', [
-    'middleware' => ['auth', 'roles', 'accessReports'],
+Route::get('/reports/create/id/{patient_id}/study/{study_id}', [
+    'middleware' => ['auth', 'roles', 'accessPatients'],
     'uses' => 'ReportsController@create', 'as' => 'reports.create',
     'roles' => ['root', 'admin', 'medic']
 ]);
@@ -67,9 +71,9 @@ Route::get('/reports/{id}/edit', [
     'uses' => 'ReportsController@edit', 'as' => 'reports.edit',
     'roles' => ['root', 'admin', 'medic']
 ]);
-Route::get('/reports/store', [
+Route::post('/reports/store', [
     'middleware' => ['auth', 'roles', 'accessReports'],
-    'uses' => 'ReportsController@edit', 'as' => 'reports.store',
+    'uses' => 'ReportsController@store', 'as' => 'reports.store',
     'roles' => ['root', 'admin', 'medic']
 ]);
 Route::post('/reports/update/{id_report}', [

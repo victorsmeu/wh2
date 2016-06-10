@@ -27,214 +27,240 @@
             #fileOutput {height:180px; overflow-y: scroll;}
         </style>
         <script type="text/javascript">
-            window.onload = function () {
+window.onload = function () {
+    var
+    jsObj = {},
+    indexor,
+    files,
+    file,
+    binStr,
+    j,
+    extension = [],
+    input = document.getElementById("fileURL"),
+    output = document.getElementById("fileOutput"),
+    holder = document.getElementById("fileHolder");
+    progressBar = document.querySelector('progress');
+    id_dicom = false;
+    var i = 0;
 
-                var
-                        jsObj = {},
-                        indexor,
-                        files,
-                        file,
-                        binStr,
-                        j,
-                        extension = [],
-                        input = document.getElementById("fileURL"),
-                        output = document.getElementById("fileOutput"),
-                        holder = document.getElementById("fileHolder");
-                progressBar = document.querySelector('progress');
-                id_dicom = false;
-                var i = 0;
+    input.addEventListener("change", function (e)
+    {
+        files = e.target.files;
 
-                input.addEventListener("change", function (e)
+        output.innerHTML = "";
+
+        progressBar.max = files.length;
+
+        for (var i = 0, len = files.length; i < len; i++)
+        {
+
+            file = files[i];
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onload = (function (theFile)
+            {
+                var fileName = theFile.name;
+                return function (e)
                 {
-                    files = e.target.files;
-
-                    output.innerHTML = "";
-
-                    progressBar.max = files.length;
-
-                    for (var i = 0, len = files.length; i < len; i++)
+                    if (ab2str(e.target.result.slice(128, 132)) === "DICM")
                     {
-
-                        file = files[i];
-                        var reader = new FileReader();
-                        reader.readAsArrayBuffer(file);
-                        reader.onload = (function (theFile)
-                        {
-                            var fileName = theFile.name;
-                            return function (e)
-                            {
-                                if (ab2str(e.target.result.slice(128, 132)) === "DICM")
+                        var xhr = new XMLHttpRequest();
+                        //xhr.addEventListener("progress", updateProgress, false);
+                        xhr.addEventListener("load", onreadystatechange, false);
+                        xhr.open('POST', 'https://webhippocrates.com/upload/web/instances/', true);
+                        xhr.send(e.target.result);
+                        output.innerHTML += "<li class='type-DICM'>" + fileName + "</li>";
+                        function onreadystatechange(evt) {
+                            if (xhr.readyState == 4) {
+                                progressBar.value = progressBar.value + 1;
+                                if (progressBar.value == files.length)
                                 {
-                                    var xhr = new XMLHttpRequest();
-                                    //xhr.addEventListener("progress", updateProgress, false);
-                                    xhr.addEventListener("load", onreadystatechange, false);
-                                    xhr.open('POST', 'https://webhippocrates.com/upload/web/instances/', true);
-                                    xhr.send(e.target.result);
-                                    output.innerHTML += "<li class='type-DICM'>" + fileName + "</li>";
-                                    function onreadystatechange(evt) {
-                                        if (xhr.readyState == 4) {
-                                            progressBar.value = progressBar.value + 1;
-                                            if (progressBar.value == files.length)
-                                            {
-                                                swal({title: "Success!",
-                                                    text: "You have uploaded your study",
-                                                    type: "warning",
-                                                    confirmButtonText: "Ok"
-                                                });
-                                                if (id_dicom === false) {
-                                                    id_dicom = $('#sopInstanceUid').text();
-                                                    if (id_dicom == "") {
-                                                        swal({title: "Fail!",
-                                                            text: "Study upload failed. No DICOM key generated",
-                                                            type: "warning",
-                                                            confirmButtonText: "Ok"
-                                                        });
-                                                    } else {
-                                                        $.post("https://webhippocrates.com/en/pacient/studies/sync-information/id_study_dicom/" + id_dicom, function (data) {});
-                                                    }
-                                                }
-                                                console.log(id_dicom);
-                                            }
+                                    swal({title: "Success!",
+                                        text: "You have uploaded your study",
+                                        type: "warning",
+                                        confirmButtonText: "Ok"
+                                    });
+                                    if (id_dicom === false) {
+                                        id_dicom = $('#sopInstanceUid').text();
+                                        if (id_dicom == "") {
+                                            swal({title: "Fail!",
+                                                text: "Study upload failed. No DICOM key generated",
+                                                type: "warning",
+                                                confirmButtonText: "Ok"
+                                            });
+                                        } else {
+                                            $.post("{{ url('/studies/sync-information') }}/study_id_dicom/" + id_dicom, function (data) {});
                                         }
                                     }
-                                    ;
-                                    if ($('#sopInstanceUid').text() == "")
-                                    {
-                                        var arrayBuffer = e.target.result;
-                                        var byteArray = new Uint8Array(arrayBuffer);
-                                        parseByteArray(byteArray);
-                                    }
-                                } else
-                                {
-                                    progressBar.value = progressBar.value + 1;
+                                    console.log(id_dicom);
                                 }
-                            };
-                        }
-                        )(file);
-                    }
-                }, false);
-
-
-
-        // This event is fired as the mouse is moved over an element when a drag is occuring
-                input.addEventListener("dragover", function (e) {
-                    holder.classList.add("highlightOver");
-                });
-
-        // This event is fired when the mouse leaves an element while a drag is occuring
-                input.addEventListener("dragleave", function (e) {
-                    holder.classList.remove("highlightOver");
-                });
-
-        // Fires when the user releases the mouse button while dragging an object.
-                input.addEventListener("dragend", function (e) {
-                    holder.classList.remove("highlightOver");
-                });
-
-        // The drop event is fired on the element where the drop was occured at the end of the drag operation
-                input.addEventListener("drop", function (e) {
-                    holder.classList.remove("highlightOver");
-                });
-
-
-
-            }
-            var has_post = 0;
-            function parseByteArray(byteArray)
-            {
-                try {
-                    var dataSet = dicomParser.parseDicom(byteArray);
-                    var sopInstanceUid = dataSet.string('x0020000d');
-                    var patient_id = $("#patient_id").val();
-                    $('#sopInstanceUid').text(sopInstanceUid);
-                    if (has_post == 0 && sopInstanceUid != "") {
-                        $.post("https://webhippocrates.com/en/default/index/update-study-status", {study_id: sopInstanceUid, user_id: "{{ Auth->user()->id }}", patient_id: patient_id}, function (data) {
-                            if (data != 'false') {
-                                has_post = 1;
                             }
-                        });
+                        }
+                        ;
+                        if ($('#sopInstanceUid').text() == "")
+                        {
+                            var arrayBuffer = e.target.result;
+                            var byteArray = new Uint8Array(arrayBuffer);
+                            parseByteArray(byteArray);
+                        }
+                    } else
+                    {
+                        progressBar.value = progressBar.value + 1;
                     }
-                } catch (err)
-                {
-                    $('#parseError').text(err);
-                }
+                };
             }
-            function ab2str(buf) {
+            )(file);
+        }
+    }, false);
 
-                return String.fromCharCode.apply(null, new Uint8Array(buf));
-            }
 
-            var add = (function () {
-                var counter = 0;
-                return function () {
-                    return counter += 1;
-                }
-            })();
 
-            function isInputDirSupported() {
-                var tmpInput = document.createElement('input');
-                if ('webkitdirectory' in tmpInput
-                        || 'mozdirectory' in tmpInput
-                        || 'odirectory' in tmpInput
-                        || 'msdirectory' in tmpInput
-                        || 'directory' in tmpInput)
-                    return true;
+    // This event is fired as the mouse is moved over an element when a drag is occuring
+    input.addEventListener("dragover", function (e) {
+        holder.classList.add("highlightOver");
+    });
 
-                return false;
-            }
+    // This event is fired when the mouse leaves an element while a drag is occuring
+    input.addEventListener("dragleave", function (e) {
+        holder.classList.remove("highlightOver");
+    });
 
-            $(document).ready(function () {
-                if (isInputDirSupported()) {
-                    $(".directory_capable").show();
-                    $(".directory_incapable").hide();
-                } else {
-                    $(".directory_incapable").show();
-                    $(".directory_capable").hide();
+    // Fires when the user releases the mouse button while dragging an object.
+    input.addEventListener("dragend", function (e) {
+        holder.classList.remove("highlightOver");
+    });
+
+    // The drop event is fired on the element where the drop was occured at the end of the drag operation
+    input.addEventListener("drop", function (e) {
+        holder.classList.remove("highlightOver");
+    });
+
+
+
+}
+var has_post = 0;
+function parseByteArray(byteArray)
+{
+    try {
+        var dataSet = dicomParser.parseDicom(byteArray);
+        var sopInstanceUid = dataSet.string('x0020000d');
+        var patient_id = $("#patient_id").val();
+        $('#sopInstanceUid').text(sopInstanceUid);
+        if (has_post == 0 && sopInstanceUid != "") {
+            $.post("https://webhippocrates.com/en/default/index/update-study-status", {study_id: sopInstanceUid, user_id: "{{ Auth::user()->id }}", patient_id: patient_id}, function (data) {
+                if (data != 'false') {
+                    has_post = 1;
                 }
             });
+        }
+    } catch (err)
+    {
+        $('#parseError').text(err);
+    }
+}
+function ab2str(buf) {
+
+    return String.fromCharCode.apply(null, new Uint8Array(buf));
+}
+
+var add = (function () {
+    var counter = 0;
+    return function () {
+        return counter += 1;
+    }
+})();
+
+function isInputDirSupported() {
+    var tmpInput = document.createElement('input');
+    if ('webkitdirectory' in tmpInput
+            || 'mozdirectory' in tmpInput
+            || 'odirectory' in tmpInput
+            || 'msdirectory' in tmpInput
+            || 'directory' in tmpInput)
+        return true;
+
+    return false;
+}
+
+$(document).ready(function () {
+    if (isInputDirSupported()) {
+        $(".directory_capable").show();
+        $(".directory_incapable").hide();
+    } else {
+        $(".directory_incapable").show();
+        $(".directory_capable").hide();
+    }
+});
         </script>
         <div class="patients_content">
-            <div class="directory_capable" style="display: none;">
-                <div class="page-header">
-                    <h2>Select patient</h2>
-                </div>
-                
-                <div class="form-group">
-                    <select class="form-control" name="patient_id" id="patient_id">
-                    @foreach($patients as $patient)
-                    <option value='{{ $patient->id }}'>{{ $patient->first_name }} {{ $patient->last_name }} </option>
-                    @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button class='btn btn-primary' id='add_patient' data-target="#myModal" data-toggle="modal"><i class='fa fa-plus-square'></i>&nbsp; Add New Patient</button>
-                </div>
-                
-                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
-                                <h4 id="myModalLabel" class="modal-title">Add New Patient</h4>
+            <div class="directory_capable col-lg-12" style="display: none;">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Study Information
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="patient_id">1. Select Patient</label>
+                                    <select class="form-control" name="patient_id" id="patient_id">
+                                        @foreach($patients as $patient)
+                                        <option value='{{ $patient->id }}'>{{ $patient->first_name }} {{ $patient->last_name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button class='btn btn-primary' id='add_patient' data-target="#myModal" data-toggle="modal"><i class='fa fa-plus-square'></i>&nbsp; Add New Patient</button>
+                                </div>
+
+                                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
+                                                <h4 id="myModalLabel" class="modal-title">Add New Patient</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-lg-12">
+                                                    {!! Form::open( array( 'route' => ['patients.store'], 'role' => 'form' ) ) !!}
+                                                    @include('patients/form')
+                                                    {!! Form::close() !!}
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <div class="col-lg-12">
-                                    {!! Form::open( array( 'route' => ['patients.store'], 'role' => 'form' ) ) !!}
-                                    @include('patients/form')
-                                    {!! Form::close() !!}
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="study_name">2. Choose a name for the study</label>
+                                    <input type="text" class="form-control" name="study_name" id="study_name" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="specialty_id">3. Choose a medical specialty</label>
+                                    <select class="form-control" name="specialty_id" id="specialty_id">
+                                        @foreach($specialties as $specialty)
+                                        <option value='{{ $specialty->id }}'>{{ $specialty->term }} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.modal-content -->
                     </div>
-                    <!-- /.modal-dialog -->
+                <div class="page-header">
+                    <h2>Select patient</h2>
                 </div>
+
                 
+
                 <div class="page-header">
                     <h2>Push <strong>Choose files</strong> to start uploading files</h2>
                 </div>
 
-                
+
                 <div id="fileHolder">
                     <input type="file" multiple="" webkitdirectory="" id="fileURL">
                 </div>
@@ -246,7 +272,6 @@
                 <ul id="sopInstanceUid"></ul>
                 <ul id="fileOutput"></ul>
                 <ul id="parseError"></ul>
-                    
             </div>
             <div class="directory_incapable" style="display: block;">
                 <h1>Your current browser doesn't support directory upload.</h1>

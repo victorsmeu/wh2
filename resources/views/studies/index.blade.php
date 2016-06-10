@@ -8,26 +8,26 @@
         
         <div class="col-lg-12">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#myStudies" data-toggle="tab">@if(Auth::user()->role_id > 2) My uploaded @endif Studies</a></li>
                 @if(Auth::user()->role_id == 3)
-                <li><a href="#usersStudies" data-toggle="tab">Studies sent to me</a></li>
+                <li class="active"><a href="#usersStudies" data-toggle="tab">Studies sent to me</a></li>
                 @endif
+                <li><a href="#myStudies" data-toggle="tab">@if(Auth::user()->role_id > 2) My uploaded @endif Studies</a></li>
             </ul>
 
             <div class="tab-content row">
                 <br />
-                <div id="myStudies" class="tab-pane fade in active">
-                    @if (count($myStudies) > 0) 
-                        @include('studies/study-box', ['type' => 'myStudies', 'studies' => $myStudies, 'medics' => $medics])
-                    @endif
-                </div>
                 @if(Auth::user()->role_id == 3)
-                <div id="usersStudies" class="tab-pane fade">
+                <div id="usersStudies" class="tab-pane fade in active">
                     @if (count($usersStudies) > 0)
                         @include('studies/study-box', ['type' => 'usersStudies', 'studies' => $usersStudies])
                     @endif
                 </div>
                 @endif
+                <div id="myStudies" class="tab-pane fade">
+                    @if (count($myStudies) > 0) 
+                        @include('studies/study-box', ['type' => 'myStudies', 'studies' => $myStudies, 'medics' => $medics])
+                    @endif
+                </div>
             </div>
         </div>
         <div class="col-lg-12">

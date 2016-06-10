@@ -205,7 +205,7 @@
                         @foreach ($history as $row)
                             <tr>
                                 <td class="table-text"  data-title='Date'>
-                                    {{ $row->created_at }}
+                                    {{ substr($row->created_at, 0, 16) }}
                                 </td>
                                 <td  data-title='User'>
                                     {{ $row->user->first_name }} {{ $row->user->last_name }}

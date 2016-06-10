@@ -11,7 +11,7 @@ class Patients extends Access
     public function handle($request, Closure $next, $guard = null)
     {
         $id = $this->getRequestId($request);
-
+        
         if ($id && \Auth::user()->role_id > 2 &&
                 (
                 DB::table('patients')
@@ -24,6 +24,7 @@ class Patients extends Access
                          ->where('patients.id', $id)
                          ->count() == 0
                 )) {
+
             return redirect()->back();
         }
         

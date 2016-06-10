@@ -47,6 +47,7 @@
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
+                                <div class="clear"></div>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -89,7 +90,7 @@
                     <span class="text-success">Accepted</span>
                 @elseif(!isset($study->accepted)) 
                     <a href='{{ url('/studies/accept/' . $study->id) }}' class='btn btn-primary  btn-sm'>Accept</a>
-                    <a href='{{ url('/studies/decline/' . $study->id) }}' class='btn btn-warning  btn-sm'>Decline</a>
+                    <a href='{{ url('/studies/decline/' . $study->id) }}' class='btn btn-danger  btn-sm'>Decline</a>
                 @else
                     <span class='text-warning'>Declined</span>
                     <a href='{{ url('/studies/accept/' . $study->id) }}' class='btn btn-primary  btn-sm pull-right'>Accept</a>
@@ -102,7 +103,7 @@
                         @endif
                     @endforeach
                 @else
-                    <a href='{{ url('/reports/create/' . $study->id) }}' class='btn btn-primary'>Write Report</a>
+                    <a href='{{ url('/reports/create/id/' . $study->patient_id . '/study/' . $study->id) }}' class='btn btn-success'>Write Report</a>
                 @endif
             @endif
         </div>
@@ -111,10 +112,14 @@
             <a class='btn btn-primary' data-placement="top" data-toggle="modal" data-target="#inviteMedic">Invite medic</a>
             &nbsp; 
             @endif
-            <a href='{{ url('/studies/view/' . $study->id . '/1') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Weasys'>W</a>
-            <a href='{{ url('/studies/view/' . $study->id . '/2') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Osirix'>O</a>
-            <a href='{{ url('/studies/view/' . $study->id . '/3') }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with Oviam'>O</a>
+            View: 
+            @foreach($viewers as $viewer)
+            @if($viewer->id != 4)
+            <a href='{{ url('/studies/view/' . $study->id . '/' . $viewer->id) }}' class='btn btn-default btn-circle' data-placement="top" data-toggle="tooltip" title='View with {{ $viewer->label }}'><i class='fa fa-television'></i></a>
+            @else
             <a href='{{ url('/studies/view/' . $study->id . '/4') }}' class='btn btn-default btn-circle pull-right' data-placement="top" data-toggle="tooltip" title='Download'><i class='fa fa-download'></i></a>
+            @endif
+            @endforeach
         </div>
     </div>
 </div>
