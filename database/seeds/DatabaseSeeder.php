@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Eloquent::unguard();
+        
+        Schema::disableForeignKeyConstraints();
+        
         Role::create([
             'id'            => 1,
             'name'          => 'Root',
@@ -64,5 +68,7 @@ class DatabaseSeeder extends Seeder
             'role_id' => 4,
             'active' => 1
         ]);
+        
+        Schema::enableForeignKeyConstraints();
     }
 }

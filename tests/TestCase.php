@@ -8,6 +8,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+    
+    /**
+     * Sets up the db connection (testing db set to sqlite)
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        
+        Artisan::call('migrate:reset');
+        Artisan::call('migrate');
+
+        $this->seed();
+    }
+    
 
     /**
      * Creates the application.
@@ -22,4 +36,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+    
+    
+    protected function getResponseData($response, $key)
+    {
+
+        $content = $response->getOriginalContent();
+        $content = $content->getData();
+
+        return $content[$key]->all();
+    }
+
 }
